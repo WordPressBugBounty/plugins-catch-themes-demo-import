@@ -3,7 +3,7 @@ Contributors: catchplugins, catchthemes, sakinshrestha, pratikshrestha, maheshma
 Donate link: https://catchplugins.com/plugins/catch-themes-demo-import/
 Tags: import, content, demo, data, widgets, settings, redux, theme options
 Requires at least: 5.9
-Tested up to: 6.5
+Tested up to: 6.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -298,6 +298,9 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 2.1.5 (Released: May 13, 2025) =
+* Compatibility check up to version 6.8
 
 = 2.1.4 (Released: April 17, 2024) =
 * Compatibility check up to version 6.5
