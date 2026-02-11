@@ -1,13 +1,14 @@
 === Catch Themes Demo Import ===
 Contributors: catchplugins, catchthemes, sakinshrestha, pratikshrestha, maheshmaharjan
 Donate link: https://catchplugins.com/plugins/catch-themes-demo-import/
-Tags: import, content, demo, data, widgets, settings, redux, theme options
+Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
 Tested up to: 6.8
+Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
-Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data (design and content placement) you desire in just a single click.
+Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data
 
 Based on One Click Demo Import https://wordpress.org/plugins/one-click-demo-import/
 
