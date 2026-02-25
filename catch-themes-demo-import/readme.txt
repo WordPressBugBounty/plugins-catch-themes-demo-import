@@ -3,8 +3,8 @@ Contributors: catchplugins, catchthemes, sakinshrestha, pratikshrestha, maheshma
 Donate link: https://catchplugins.com/plugins/catch-themes-demo-import/
 Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
-Tested up to: 6.8
-Stable tag: trunk
+Tested up to: 6.9
+Stable tag: 2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -300,6 +300,15 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 
 == Changelog ==
 
+= 2.2 (Released: February 25, 2026) =
+* Bug Fixed: WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
+* Bug Fixed: WordPress.WP.DeprecatedParameters.Get_termsParam2Found
+* Bug Fixed: WordPress.WP.AlternativeFunctions.unlink_unlink
+* Bug Fixed: WordPress.WP.I18n.MissingTranslatorsComment
+* Bug Fixed: WordPress.WP.I18n.TextDomainMismatch
+* Bug Fixed: WordPress.WP.I18n.MissingArgDomain
+* Compatibility check up to version 6.9
+
 = 2.1.5 (Released: May 13, 2025) =
 * Compatibility check up to version 6.8
 
@@ -398,7 +407,7 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 
 = 1.0.1 (Released: March 27, 2019) =
 * Removed: Unnecessary codes
-* Updated: Code Optimizaion
+* Updated: Code Optimization
 * Updated: Catch Themes and Catch Plugins tabs displaying code
 
 = 1.0.0 (Released: February 28, 2019) =

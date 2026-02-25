@@ -7,10 +7,14 @@
 
 namespace CTDI;
 
+// Exit if accessed directly
+if (! defined('ABSPATH')) exit;
+
 /**
  * Catch Themes Demo Import class, so we don't have to worry about namespaces.
  */
-class CatchThemesDemoImport {
+class CatchThemesDemoImport
+{
 	/**
 	 * The instance *Singleton* of this class
 	 *
@@ -86,8 +90,9 @@ class CatchThemesDemoImport {
 	 *
 	 * @return CatchThemesDemoImport the *Singleton* instance.
 	 */
-	public static function get_instance() {
-		if ( null === static::$instance ) {
+	public static function get_instance()
+	{
+		if (null === static::$instance) {
 			static::$instance = new static();
 		}
 
@@ -100,16 +105,17 @@ class CatchThemesDemoImport {
 	 * Protected constructor to prevent creating a new instance of the
 	 * *Singleton* via the `new` operator from outside of this class.
 	 */
-	protected function __construct() {
+	protected function __construct()
+	{
 		// Actions.
-		add_action( 'admin_menu', array( $this, 'create_plugin_page' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'wp_ajax_ctdi_import_demo_data', array( $this, 'import_demo_data_ajax_callback' ) );
-		add_action( 'wp_ajax_ctdi_import_customizer_data', array( $this, 'import_customizer_data_ajax_callback' ) );
-		add_action( 'wp_ajax_ctdi_after_import_data', array( $this, 'after_all_import_data_ajax_callback' ) );
-		add_action( 'after_setup_theme', array( $this, 'setup_plugin_with_filter_data' ) );
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_filter( 'plugin_action_links', array( $this, 'action_links' ), 10, 2 );
+		add_action('admin_menu', array($this, 'create_plugin_page'));
+		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+		add_action('wp_ajax_ctdi_import_demo_data', array($this, 'import_demo_data_ajax_callback'));
+		add_action('wp_ajax_ctdi_import_customizer_data', array($this, 'import_customizer_data_ajax_callback'));
+		add_action('wp_ajax_ctdi_after_import_data', array($this, 'after_all_import_data_ajax_callback'));
+		add_action('after_setup_theme', array($this, 'setup_plugin_with_filter_data'));
+		add_action('plugins_loaded', array($this, 'load_textdomain'));
+		add_filter('plugin_action_links', array($this, 'action_links'), 10, 2);
 	}
 
 
@@ -132,13 +138,14 @@ class CatchThemesDemoImport {
 	/**
 	 * Creates the plugin page and a submenu item in WP Appearance menu.
 	 */
-	public function create_plugin_page() {
+	public function create_plugin_page()
+	{
 		$this->plugin_page_setup = apply_filters(
 			'cp-ctdi/plugin_page_setup',
 			array(
 				'parent_slug' => 'themes.php',
-				'page_title'  => esc_html__( 'Catch Themes Demo Import', 'catch-themes-demo-import' ),
-				'menu_title'  => esc_html__( 'Catch Themes Demo Import', 'catch-themes-demo-import' ),
+				'page_title'  => esc_html__('Catch Themes Demo Import', 'catch-themes-demo-import'),
+				'menu_title'  => esc_html__('Catch Themes Demo Import', 'catch-themes-demo-import'),
 				'capability'  => 'import',
 				'menu_slug'   => 'catch-themes-demo-import',
 			)
@@ -150,10 +157,10 @@ class CatchThemesDemoImport {
 			$this->plugin_page_setup['menu_title'],
 			$this->plugin_page_setup['capability'],
 			$this->plugin_page_setup['menu_slug'],
-			apply_filters( 'cp-ctdi/plugin_page_display_callback_function', array( $this, 'display_plugin_page' ) )
+			apply_filters('cp-ctdi/plugin_page_display_callback_function', array($this, 'display_plugin_page'))
 		);
 
-		register_importer( $this->plugin_page_setup['menu_slug'], $this->plugin_page_setup['page_title'], $this->plugin_page_setup['menu_title'], apply_filters( 'cp-ctdi/plugin_page_display_callback_function', array( $this, 'display_plugin_page' ) ) );
+		register_importer($this->plugin_page_setup['menu_slug'], $this->plugin_page_setup['page_title'], $this->plugin_page_setup['menu_title'], apply_filters('cp-ctdi/plugin_page_display_callback_function', array($this, 'display_plugin_page')));
 	}
 
 
@@ -161,7 +168,8 @@ class CatchThemesDemoImport {
 	 * Plugin page display.
 	 * Output (HTML) is in another file.
 	 */
-	public function display_plugin_page() {
+	public function display_plugin_page()
+	{
 		require_once CTDI_PATH . 'partials/catchthemes-demo-import.php';
 	}
 
@@ -171,15 +179,16 @@ class CatchThemesDemoImport {
 	 *
 	 * @param string $hook holds info on which admin page you are currently loading.
 	 */
-	public function admin_enqueue_scripts( $hook ) {
+	public function admin_enqueue_scripts($hook)
+	{
 		// Enqueue the scripts only on the plugin page.
-		if ( $this->plugin_page === $hook || ( 'admin.php' === $hook && $this->plugin_page_setup['menu_slug'] === esc_attr( $_GET['import'] ) ) ) {
-			wp_enqueue_script( 'jquery-ui-dialog' );
-			wp_enqueue_style( 'wp-jquery-ui-dialog' );
-			wp_register_script( 'match-height-js', CTDI_URL . 'assets/js/jquery.matchHeight.min.js', array( 'jquery' ), CTDI_VERSION );
-			wp_enqueue_script( 'ctdi-dashboard-js', CTDI_URL . 'assets/js/admin-dashboard.js', array( 'jquery', 'match-height-js' ), CTDI_VERSION );
+		if ($this->plugin_page === $hook || ('admin.php' === $hook && $this->plugin_page_setup['menu_slug'] === esc_attr($_GET['import']))) {
+			wp_enqueue_script('jquery-ui-dialog');
+			wp_enqueue_style('wp-jquery-ui-dialog');
+			wp_register_script('match-height-js', CTDI_URL . 'assets/js/jquery.matchHeight.min.js', array('jquery'), CTDI_VERSION);
+			wp_enqueue_script('ctdi-dashboard-js', CTDI_URL . 'assets/js/admin-dashboard.js', array('jquery', 'match-height-js'), CTDI_VERSION);
 
-			wp_enqueue_script( 'ctdi-main-js', CTDI_URL . 'assets/js/main.js', array( 'jquery', 'jquery-ui-dialog' ), CTDI_VERSION );
+			wp_enqueue_script('ctdi-main-js', CTDI_URL . 'assets/js/main.js', array('jquery', 'jquery-ui-dialog'), CTDI_VERSION);
 
 			// Get theme data.
 			$theme = wp_get_theme();
@@ -188,20 +197,20 @@ class CatchThemesDemoImport {
 				'ctdi-main-js',
 				'ctdi',
 				array(
-					'ajax_url'         => admin_url( 'admin-ajax.php' ),
-					'ajax_nonce'       => wp_create_nonce( 'ctdi-ajax-verification' ),
+					'ajax_url'         => admin_url('admin-ajax.php'),
+					'ajax_nonce'       => wp_create_nonce('ctdi-ajax-verification'),
 					'import_files'     => $this->import_files,
-					'wp_customize_on'  => apply_filters( 'cp-ctdi/enable_wp_customize_save_hooks', false ),
-					'import_popup'     => apply_filters( 'cp-ctdi/enable_grid_layout_import_popup_confirmation', true ),
+					'wp_customize_on'  => apply_filters('cp-ctdi/enable_wp_customize_save_hooks', false),
+					'import_popup'     => apply_filters('cp-ctdi/enable_grid_layout_import_popup_confirmation', true),
 					'theme_screenshot' => $theme->get_screenshot(),
 					'texts'            => array(
-						'missing_preview_image' => esc_html__( 'No preview image defined for this import.', 'catch-themes-demo-import' ),
-						'dialog_title'          => esc_html__( 'Are you sure?', 'catch-themes-demo-import' ),
-						'dialog_no'             => esc_html__( 'Cancel', 'catch-themes-demo-import' ),
-						'dialog_yes'            => esc_html__( 'Yes, import!', 'catch-themes-demo-import' ),
-						'selected_import_title' => esc_html__( 'Selected demo import:', 'catch-themes-demo-import' ),
+						'missing_preview_image' => esc_html__('No preview image defined for this import.', 'catch-themes-demo-import'),
+						'dialog_title'          => esc_html__('Are you sure?', 'catch-themes-demo-import'),
+						'dialog_no'             => esc_html__('Cancel', 'catch-themes-demo-import'),
+						'dialog_yes'            => esc_html__('Yes, import!', 'catch-themes-demo-import'),
+						'selected_import_title' => esc_html__('Selected demo import:', 'catch-themes-demo-import'),
 					),
-					'dialog_options'   => apply_filters( 'cp-ctdi/confirmation_dialog_options', array() ),
+					'dialog_options'   => apply_filters('cp-ctdi/confirmation_dialog_options', array()),
 				)
 			);
 
@@ -209,12 +218,12 @@ class CatchThemesDemoImport {
 				'ctdi-dashboard-js',
 				'object',
 				array(
-					'url' => admin_url( 'themes.php?page=catch-themes-demo-import' ),
+					'url' => admin_url('themes.php?page=catch-themes-demo-import'),
 				)
 			);
 
-			wp_enqueue_style( 'ctdi-main-css', CTDI_URL . 'assets/css/main.css', array(), CTDI_VERSION );
-			wp_enqueue_style( 'ctdi-dashboard-css', CTDI_URL . 'assets/css/admin-dashboard.css', array(), CTDI_VERSION );
+			wp_enqueue_style('ctdi-main-css', CTDI_URL . 'assets/css/main.css', array(), CTDI_VERSION);
+			wp_enqueue_style('ctdi-dashboard-css', CTDI_URL . 'assets/css/admin-dashboard.css', array(), CTDI_VERSION);
 		}
 	}
 
@@ -226,9 +235,10 @@ class CatchThemesDemoImport {
 	 * 3). import content
 	 * 4). execute 'after content import' actions (before widget import WP action, widget import, customizer import, after import WP action)
 	 */
-	public function import_demo_data_ajax_callback() {
+	public function import_demo_data_ajax_callback()
+	{
 		// Try to update PHP memory limit (so that it does not run out of it).
-		ini_set( 'memory_limit', apply_filters( 'cp-ctdi/import_memory_limit', '350M' ) );
+		ini_set('memory_limit', apply_filters('cp-ctdi/import_memory_limit', '350M'));
 
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
 		Helpers::verify_ajax_call();
@@ -236,7 +246,7 @@ class CatchThemesDemoImport {
 		// Is this a new AJAX call to continue the previous import?
 		$use_existing_importer_data = $this->use_existing_importer_data();
 
-		if ( ! $use_existing_importer_data ) {
+		if (! $use_existing_importer_data) {
 			// Create a date and time string to use for demo and log file names.
 			Helpers::set_demo_import_start_time();
 
@@ -244,77 +254,81 @@ class CatchThemesDemoImport {
 			$this->log_file_path = Helpers::get_log_path();
 
 			// Get selected file index or set it to 0.
-			$this->selected_index = empty( $_POST['selected'] ) ? 0 : absint( $_POST['selected'] );
+			$this->selected_index = empty($_POST['selected']) ? 0 : absint($_POST['selected']);
 
 			/**
 			 * 1). Prepare import files.
 			 * Manually uploaded import files or predefined import files via filter: cp-ctdi/import_files
 			 */
-			if ( ! empty( $_FILES ) ) { // Using manual file uploads?
+			if (! empty($_FILES)) { // Using manual file uploads?
 				// Get paths for the uploaded files.
 
 				/* File validation before uploading */
-				if ( ! empty( $_FILES['content_file']['name'] ) ) {
-					$ext = explode( '.', sanitize_file_name( $_FILES['content_file']['name'] ) );
+				if (! empty($_FILES['content_file']['name'])) {
+					$ext = explode('.', sanitize_file_name($_FILES['content_file']['name']));
 
-					if ( 'xml' !== strtolower( $ext[ count( $ext ) - 1 ] ) ) {
-						die( 'Invalid file uploaded. Please upload valid XML file.' );
+					if ('xml' !== strtolower($ext[count($ext) - 1])) {
+						die('Invalid file uploaded. Please upload valid XML file.');
 					}
-				} if ( ! empty( $_FILES['widget_file']['name'] ) ) {
-					$ext = explode( '.', sanitize_file_name( $_FILES['widget_file']['name'] ) );
-					if ( 'json' !== strtolower( $ext[ count( $ext ) - 1 ] ) && 'wie' !== strtolower( $ext[ count( $ext ) - 1 ] ) ) {
-						die( 'Invalid file uploaded. Please upload valid WIE/JSON file.' );
+				}
+				if (! empty($_FILES['widget_file']['name'])) {
+					$ext = explode('.', sanitize_file_name($_FILES['widget_file']['name']));
+					if ('json' !== strtolower($ext[count($ext) - 1]) && 'wie' !== strtolower($ext[count($ext) - 1])) {
+						die('Invalid file uploaded. Please upload valid WIE/JSON file.');
 					}
-				} if ( ! empty( $_FILES['customizer_file']['name'] ) ) {
-					$ext = explode( '.', sanitize_file_name( $_FILES['customizer_file']['name'] ) );
-					if ( 'dat' !== strtolower( $ext[ count( $ext ) - 1 ] ) ) {
-						die( 'Invalid file uploaded. Please upload valid DAT file.' );
+				}
+				if (! empty($_FILES['customizer_file']['name'])) {
+					$ext = explode('.', sanitize_file_name($_FILES['customizer_file']['name']));
+					if ('dat' !== strtolower($ext[count($ext) - 1])) {
+						die('Invalid file uploaded. Please upload valid DAT file.');
 					}
-				} if ( ! empty( $_FILES['redux_file']['name'] ) ) {
-					$ext = explode( '.', sanitize_file_name( $_FILES['redux_file']['name'] ) );
-					if ( 'json' !== strtolower( $ext[ count( $ext ) - 1 ] ) ) {
-						die( 'Invalid file uploaded. Please upload valid JSON file.' );
+				}
+				if (! empty($_FILES['redux_file']['name'])) {
+					$ext = explode('.', sanitize_file_name($_FILES['redux_file']['name']));
+					if ('json' !== strtolower($ext[count($ext) - 1])) {
+						die('Invalid file uploaded. Please upload valid JSON file.');
 					}
 				}
 
-				$this->selected_import_files = Helpers::process_uploaded_files( $_FILES, $this->log_file_path );
+				$this->selected_import_files = Helpers::process_uploaded_files($_FILES, $this->log_file_path);
 
 				// Set the name of the import files, because we used the uploaded files.
-				$this->import_files[ $this->selected_index ]['import_file_name'] = esc_html__( 'Manually uploaded files', 'catch-themes-demo-import' );
-			} elseif ( ! empty( $this->import_files[ $this->selected_index ] ) ) { // Use predefined import files from wp filter: cp-ctdi/import_files.
+				$this->import_files[$this->selected_index]['import_file_name'] = esc_html__('Manually uploaded files', 'catch-themes-demo-import');
+			} elseif (! empty($this->import_files[$this->selected_index])) { // Use predefined import files from wp filter: cp-ctdi/import_files.
 
 				// Download the import files (content, widgets and customizer files).
-				$this->selected_import_files = Helpers::download_import_files( $this->import_files[ $this->selected_index ] );
+				$this->selected_import_files = Helpers::download_import_files($this->import_files[$this->selected_index]);
 
 				// Check Errors.
-				if ( is_wp_error( $this->selected_import_files ) ) {
+				if (is_wp_error($this->selected_import_files)) {
 					// Write error to log file and send an AJAX response with the error.
 					Helpers::log_error_and_send_ajax_response(
 						$this->selected_import_files->get_error_message(),
 						$this->log_file_path,
-						esc_html__( 'Downloaded files', 'catch-themes-demo-import' )
+						esc_html__('Downloaded files', 'catch-themes-demo-import')
 					);
 				}
 
 				// Add this message to log file.
 				$log_added = Helpers::append_to_file(
 					sprintf(
-						__( 'The import files for: %s were successfully downloaded!', 'catch-themes-demo-import' ),
-						$this->import_files[ $this->selected_index ]['import_file_name']
-					) . Helpers::import_file_info( $this->selected_import_files ),
+						// Translators: message to show data import are download successfully! for %s themes.   
+						__('The import files for: %s were successfully downloaded!', 'catch-themes-demo-import'),
+						$this->import_files[$this->selected_index]['import_file_name']
+					) . Helpers::import_file_info($this->selected_import_files),
 					$this->log_file_path,
-					esc_html__( 'Downloaded files', 'catch-themes-demo-import' )
+					esc_html__('Downloaded files', 'catch-themes-demo-import')
 				);
 			} else {
 				// Send JSON Error response to the AJAX call.
-				wp_send_json( esc_html__( 'No import files specified!', 'catch-themes-demo-import' ) );
+				wp_send_json(esc_html__('No import files specified!', 'catch-themes-demo-import'));
 			}
 		}
 
 		// Save the initial import data as a transient, so other import parts (in new AJAX calls) can use that data.
-		Helpers::set_ctdi_import_data_transient( $this->get_current_importer_data() );
+		Helpers::set_ctdi_import_data_transient($this->get_current_importer_data());
 
-		if ( ! $this->before_import_executed ) {
+		if (! $this->before_import_executed) {
 			$this->before_import_executed = true;
 
 			/**
@@ -323,15 +337,15 @@ class CatchThemesDemoImport {
 			 * Default actions:
 			 * 1 - Before content import WP action (with priority 10).
 			 */
-			do_action( 'cp-ctdi/before_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index );
+			do_action('cp-ctdi/before_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 		}
 
 		/**
 		 * 3). Import content (if the content XML file is set for this import).
 		 * Returns any errors greater then the "warning" logger level, that will be displayed on front page.
 		 */
-		if ( ! empty( $this->selected_import_files['content'] ) ) {
-			$this->append_to_frontend_error_messages( $this->importer->import_content( $this->selected_import_files['content'] ) );
+		if (! empty($this->selected_import_files['content'])) {
+			$this->append_to_frontend_error_messages($this->importer->import_content($this->selected_import_files['content']));
 		}
 
 		/**
@@ -342,19 +356,19 @@ class CatchThemesDemoImport {
 		 * 2 - Import widgets (with priority 20).
 		 * 3 - Import Redux data (with priority 30).
 		 */
-		do_action( 'cp-ctdi/after_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index );
+		do_action('cp-ctdi/after_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 
 		// Save the import data as a transient, so other import parts (in new AJAX calls) can use that data.
-		Helpers::set_ctdi_import_data_transient( $this->get_current_importer_data() );
+		Helpers::set_ctdi_import_data_transient($this->get_current_importer_data());
 
 		// Request the customizer import AJAX call.
-		if ( ! empty( $this->selected_import_files['customizer'] ) ) {
-			wp_send_json( array( 'status' => 'customizerAJAX' ) );
+		if (! empty($this->selected_import_files['customizer'])) {
+			wp_send_json(array('status' => 'customizerAJAX'));
 		}
 
 		// Request the after all import AJAX call.
-		if ( false !== has_action( 'cp-ctdi/after_all_import_execution' ) ) {
-			wp_send_json( array( 'status' => 'afterAllImportAJAX' ) );
+		if (false !== has_action('cp-ctdi/after_all_import_execution')) {
+			wp_send_json(array('status' => 'afterAllImportAJAX'));
 		}
 
 		// Send a JSON response with final report.
@@ -368,24 +382,25 @@ class CatchThemesDemoImport {
 	 * (they can only be called with the $wp_customize instance). But if the $wp_customize is defined,
 	 * then the widgets do not import correctly, that's why the customizer import has its own AJAX call.
 	 */
-	public function import_customizer_data_ajax_callback() {
+	public function import_customizer_data_ajax_callback()
+	{
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
 		Helpers::verify_ajax_call();
 
 		// Get existing import data.
-		if ( $this->use_existing_importer_data() ) {
+		if ($this->use_existing_importer_data()) {
 			/**
 			 * Execute the customizer import actions.
 			 *
 			 * Default actions:
 			 * 1 - Customizer import (with priority 10).
 			 */
-			do_action( 'cp-ctdi/customizer_import_execution', $this->selected_import_files );
+			do_action('cp-ctdi/customizer_import_execution', $this->selected_import_files);
 		}
 
 		// Request the after all import AJAX call.
-		if ( false !== has_action( 'cp-ctdi/after_all_import_execution' ) ) {
-			wp_send_json( array( 'status' => 'afterAllImportAJAX' ) );
+		if (false !== has_action('cp-ctdi/after_all_import_execution')) {
+			wp_send_json(array('status' => 'afterAllImportAJAX'));
 		}
 
 		// Send a JSON response with final report.
@@ -396,19 +411,20 @@ class CatchThemesDemoImport {
 	/**
 	 * AJAX callback for the after all import action.
 	 */
-	public function after_all_import_data_ajax_callback() {
+	public function after_all_import_data_ajax_callback()
+	{
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
 		Helpers::verify_ajax_call();
 
 		// Get existing import data.
-		if ( $this->use_existing_importer_data() ) {
+		if ($this->use_existing_importer_data()) {
 			/**
 			 * Execute the after all import actions.
 			 *
 			 * Default actions:
 			 * 1 - after_import action (with priority 10).
 			 */
-			do_action( 'cp-ctdi/after_all_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index );
+			do_action('cp-ctdi/after_all_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 		}
 
 		// Send a JSON response with final report.
@@ -419,16 +435,18 @@ class CatchThemesDemoImport {
 	/**
 	 * Send a JSON response with final report.
 	 */
-	private function final_response() {
+	private function final_response()
+	{
 		// Delete importer data transient for current import.
-		delete_transient( 'ctdi_importer_data' );
+		delete_transient('ctdi_importer_data');
 
 		// Display final messages (success or error messages).
-		if ( empty( $this->frontend_error_messages ) ) {
+		if (empty($this->frontend_error_messages)) {
 			$response['message'] = '';
 
 			$response['message'] .= sprintf(
-				__( '%1$s%3$sThat\'s it, all done!%4$s%2$sThe demo import has finished. Please check your page and make sure that everything has imported correctly. If it did, you can deactivate the %3$sCatch Themes Demo Import%4$s plugin, because it has done its job.%5$s', 'catch-themes-demo-import' ),
+				// Translators:  Notice to give information about files imported successfully.
+				__('%1$s%3$sThat\'s it, all done!%4$s%2$sThe demo import has finished. Please check your page and make sure that everything has imported correctly. If it did, you can deactivate the %3$sCatch Themes Demo Import%4$s plugin, because it has done its job.%5$s', 'catch-themes-demo-import'),
 				'<div class="notice  notice-success"><p>',
 				'<br>',
 				'<strong>',
@@ -438,18 +456,20 @@ class CatchThemesDemoImport {
 		} else {
 			$response['message']  = $this->frontend_error_messages_display() . '<br>';
 			$response['message'] .= sprintf(
-				__( '%1$sThe demo import has finished, but there were some import errors.%2$sMore details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s', 'catch-themes-demo-import' ),
+
+				// Translators: Notice to give information about errors while import files.
+				__('%1$sThe demo import has finished, but there were some import errors.%2$sMore details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s', 'catch-themes-demo-import'),
 				'<div class="notice  notice-warning"><p>',
 				'<br>',
 				'<strong>',
 				'</strong>',
-				'<a href="' . Helpers::get_log_url( $this->log_file_path ) . '" target="_blank">',
+				'<a href="' . Helpers::get_log_url($this->log_file_path) . '" target="_blank">',
 				'</a>',
 				'</p></div>'
 			);
 		}
 
-		wp_send_json( $response );
+		wp_send_json($response);
 	}
 
 
@@ -458,14 +478,15 @@ class CatchThemesDemoImport {
 	 *
 	 * @return boolean
 	 */
-	private function use_existing_importer_data() {
-		if ( $data = get_transient( 'ctdi_importer_data' ) ) {
-			$this->frontend_error_messages = empty( $data['frontend_error_messages'] ) ? array() : $data['frontend_error_messages'];
-			$this->log_file_path           = empty( $data['log_file_path'] ) ? '' : $data['log_file_path'];
-			$this->selected_index          = empty( $data['selected_index'] ) ? 0 : $data['selected_index'];
-			$this->selected_import_files   = empty( $data['selected_import_files'] ) ? array() : $data['selected_import_files'];
-			$this->before_import_executed  = empty( $data['before_import_executed'] ) ? false : $data['before_import_executed'];
-			$this->importer->set_importer_data( $data );
+	private function use_existing_importer_data()
+	{
+		if ($data = get_transient('ctdi_importer_data')) {
+			$this->frontend_error_messages = empty($data['frontend_error_messages']) ? array() : $data['frontend_error_messages'];
+			$this->log_file_path           = empty($data['log_file_path']) ? '' : $data['log_file_path'];
+			$this->selected_index          = empty($data['selected_index']) ? 0 : $data['selected_index'];
+			$this->selected_import_files   = empty($data['selected_import_files']) ? array() : $data['selected_import_files'];
+			$this->before_import_executed  = empty($data['before_import_executed']) ? false : $data['before_import_executed'];
+			$this->importer->set_importer_data($data);
 
 			return true;
 		}
@@ -478,7 +499,8 @@ class CatchThemesDemoImport {
 	 *
 	 * @return array
 	 */
-	public function get_current_importer_data() {
+	public function get_current_importer_data()
+	{
 		return array(
 			'frontend_error_messages' => $this->frontend_error_messages,
 			'log_file_path'           => $this->log_file_path,
@@ -494,7 +516,8 @@ class CatchThemesDemoImport {
 	 *
 	 * @return string The log_file_path value.
 	 */
-	public function get_log_file_path() {
+	public function get_log_file_path()
+	{
 		return $this->log_file_path;
 	}
 
@@ -504,16 +527,17 @@ class CatchThemesDemoImport {
 	 *
 	 * @param string $additional_value The additional value that will be appended to the existing frontend_error_messages.
 	 */
-	public function append_to_frontend_error_messages( $text ) {
+	public function append_to_frontend_error_messages($text)
+	{
 		$lines = array();
 
-		if ( ! empty( $text ) ) {
-			$text  = str_replace( '<br>', PHP_EOL, $text );
-			$lines = explode( PHP_EOL, $text );
+		if (! empty($text)) {
+			$text  = str_replace('<br>', PHP_EOL, $text);
+			$lines = explode(PHP_EOL, $text);
 		}
 
-		foreach ( $lines as $line ) {
-			if ( ! empty( $line ) && ! in_array( $line, $this->frontend_error_messages ) ) {
+		foreach ($lines as $line) {
+			if (! empty($line) && ! in_array($line, $this->frontend_error_messages)) {
 				$this->frontend_error_messages[] = $line;
 			}
 		}
@@ -525,12 +549,13 @@ class CatchThemesDemoImport {
 	 *
 	 * @return string Text with HTML markup.
 	 */
-	public function frontend_error_messages_display() {
+	public function frontend_error_messages_display()
+	{
 		$output = '';
 
-		if ( ! empty( $this->frontend_error_messages ) ) {
-			foreach ( $this->frontend_error_messages as $line ) {
-				$output .= esc_html( $line );
+		if (! empty($this->frontend_error_messages)) {
+			foreach ($this->frontend_error_messages as $line) {
+				$output .= esc_html($line);
 				$output .= '<br>';
 			}
 		}
@@ -542,17 +567,19 @@ class CatchThemesDemoImport {
 	/**
 	 * Load the plugin textdomain, so that translations can be made.
 	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'catch-themes-demo-import', false, plugin_basename( dirname( dirname( __FILE__ ) ) ) . '/languages' );
+	public function load_textdomain()
+	{
+		load_plugin_textdomain('catch-themes-demo-import', false, plugin_basename(dirname(dirname(__FILE__))) . '/languages');
 	}
 
 
 	/**
 	 * Get data from filters, after the theme has loaded and instantiate the importer.
 	 */
-	public function setup_plugin_with_filter_data() {
+	public function setup_plugin_with_filter_data()
+	{
 		// Get info of import data files and filter it.
-		$this->import_files = Helpers::validate_import_file_info( apply_filters( 'cp-ctdi/import_files', array() ) );
+		$this->import_files = Helpers::validate_import_file_info(apply_filters('cp-ctdi/import_files', array()));
 
 		/**
 		 * Register all default actions (before content import, widget, customizer import and other actions)
@@ -582,7 +609,7 @@ class CatchThemesDemoImport {
 		$logger->min_level = $logger_options['logger_min_level'];
 
 		// Create importer instance with proper parameters.
-		$this->importer = new Importer( $importer_options, $logger );
+		$this->importer = new Importer($importer_options, $logger);
 	}
 
 	/**
@@ -593,12 +620,13 @@ class CatchThemesDemoImport {
 	 *
 	 * @param arrray $file File name.
 	 */
-	public function action_links( $links, $file ) {
+	public function action_links($links, $file)
+	{
 		$plugin_name = 'catch-themes-demo-import';
-		if ( $file === $plugin_name . '/' . $plugin_name . '.php' ) {
-			$settings_link = '<a href="' . esc_url( admin_url( 'themes.php?page=catch-themes-demo-import' ) ) . '">' . esc_html__( 'Settings', 'catch-themes-demo-import' ) . '</a>';
+		if ($file === $plugin_name . '/' . $plugin_name . '.php') {
+			$settings_link = '<a href="' . esc_url(admin_url('themes.php?page=catch-themes-demo-import')) . '">' . esc_html__('Settings', 'catch-themes-demo-import') . '</a>';
 
-			array_unshift( $links, $settings_link );
+			array_unshift($links, $settings_link);
 		}
 		return $links;
 	}

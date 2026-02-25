@@ -7,7 +7,8 @@
 
 namespace CTDI;
 
-class Downloader {
+class Downloader
+{
 	/**
 	 * Holds full path to where the files will be saved.
 	 *
@@ -20,8 +21,9 @@ class Downloader {
 	 *
 	 * @param string $download_directory_path Full path to where the files will be saved.
 	 */
-	public function __construct( $download_directory_path = '' ) {
-		$this->set_download_directory_path( $download_directory_path );
+	public function __construct($download_directory_path = '')
+	{
+		$this->set_download_directory_path($download_directory_path);
 	}
 
 
@@ -32,15 +34,16 @@ class Downloader {
 	 * @param string $filename Filename of the file to save.
 	 * @return string|WP_Error Full path to the downloaded file or WP_Error object with error message.
 	 */
-	public function download_file( $url, $filename ) {
-		$content = $this->get_content_from_url( $url );
+	public function download_file($url, $filename)
+	{
+		$content = $this->get_content_from_url($url);
 
 		// Check if there was an error and break out.
-		if ( is_wp_error( $content ) ) {
+		if (is_wp_error($content)) {
 			return $content;
 		}
 
-		return Helpers::write_to_file( $content, $this->download_directory_path . $filename );
+		return Helpers::write_to_file($content, $this->download_directory_path . $filename);
 	}
 
 
@@ -50,30 +53,32 @@ class Downloader {
 	 * @param string $url URL to the content file.
 	 * @return string|WP_Error, content from the URL or WP_Error object with error message.
 	 */
-	private function get_content_from_url( $url ) {
+	private function get_content_from_url($url)
+	{
 		// Test if the URL to the file is defined.
-		if ( empty( $url ) ) {
+		if (empty($url)) {
 			return new \WP_Error(
 				'missing_url',
-				__( 'Missing URL for downloading a file!', 'catch-themes-demo-import' )
+				__('Missing URL for downloading a file!', 'catch-themes-demo-import')
 			);
 		}
 
 		// Get file content from the server.
 		$response = wp_remote_get(
 			$url,
-			array( 'timeout' => apply_filters( 'cp-ctdi/timeout_for_downloading_import_file', 20 ) )
+			array('timeout' => apply_filters('cp-ctdi/timeout_for_downloading_import_file', 20))
 		);
 
 		// Test if the get request was not successful.
-		if ( is_wp_error( $response ) || 200 !== $response['response']['code'] ) {
+		if (is_wp_error($response) || 200 !== $response['response']['code']) {
 			// Collect the right format of error data (array or WP_Error).
-			$response_error = $this->get_error_from_response( $response );
+			$response_error = $this->get_error_from_response($response);
 
 			return new \WP_Error(
 				'download_error',
 				sprintf(
-					__( 'An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - %6$s.', 'catch-themes-demo-import' ),
+					// Translators: Notice to show errors log while fetching from the path.
+					__('An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - %6$s.', 'catch-themes-demo-import'),
 					'<strong>',
 					$url,
 					'</strong>',
@@ -81,12 +86,12 @@ class Downloader {
 					$response_error['error_code'],
 					$response_error['error_message']
 				) . '<br>' .
-				apply_filters( 'cp-ctdi/message_after_file_fetching_error', '' )
+					apply_filters('cp-ctdi/message_after_file_fetching_error', '')
 			);
 		}
 
 		// Return content retrieved from the URL.
-		return wp_remote_retrieve_body( $response );
+		return wp_remote_retrieve_body($response);
 	}
 
 
@@ -96,14 +101,14 @@ class Downloader {
 	 * @param array|WP_Error $response Array or WP_Error or the response.
 	 * @return array Error code and error message.
 	 */
-	private function get_error_from_response( $response ) {
+	private function get_error_from_response($response)
+	{
 		$response_error = array();
 
-		if ( is_array( $response ) ) {
+		if (is_array($response)) {
 			$response_error['error_code']    = $response['response']['code'];
 			$response_error['error_message'] = $response['response']['message'];
-		}
-		else {
+		} else {
 			$response_error['error_code']    = $response->get_error_code();
 			$response_error['error_message'] = $response->get_error_message();
 		}
@@ -115,7 +120,8 @@ class Downloader {
 	/**
 	 * Get download_directory_path attribute.
 	 */
-	public function get_download_directory_path() {
+	public function get_download_directory_path()
+	{
 		return $this->download_directory_path;
 	}
 
@@ -126,13 +132,13 @@ class Downloader {
 	 *
 	 * @param string $download_directory_path Path, where the files will be saved.
 	 */
-	public function set_download_directory_path( $download_directory_path ) {
-		if ( file_exists( $download_directory_path ) ) {
+	public function set_download_directory_path($download_directory_path)
+	{
+		if (file_exists($download_directory_path)) {
 			$this->download_directory_path = $download_directory_path;
-		}
-		else {
+		} else {
 			$upload_dir = wp_upload_dir();
-			$this->download_directory_path = apply_filters( 'cp-ctdi/upload_file_path', trailingslashit( $upload_dir['path'] ) );
+			$this->download_directory_path = apply_filters('cp-ctdi/upload_file_path', trailingslashit($upload_dir['path']));
 		}
 	}
 }

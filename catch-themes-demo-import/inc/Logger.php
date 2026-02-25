@@ -7,7 +7,8 @@
 
 namespace CTDI;
 
-class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI {
+class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI
+{
 	/**
 	 * Variable for front-end error display.
 	 *
@@ -24,18 +25,19 @@ class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI {
 	 * @param string $message log message.
 	 * @param array  $context context to the log message.
 	 */
-	public function log( $level, $message, array $context = array() ) {
+	public function log($level, $message, array $context = array())
+	{
 		// Save error messages for front-end display.
-		$this->error_output( $level, $message, $context = array() );
+		$this->error_output($level, $message, $context = array());
 
-		if ( $this->level_to_numeric( $level ) < $this->level_to_numeric( $this->min_level ) ) {
+		if ($this->level_to_numeric($level) < $this->level_to_numeric($this->min_level)) {
 			return;
 		}
 
 		printf(
 			'[%s] %s' . PHP_EOL,
-			strtoupper( $level ),
-			$message
+			esc_html(strtoupper($level)),
+			esc_html($message)
 		);
 	}
 
@@ -48,14 +50,15 @@ class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI {
 	 * @param string $message log message.
 	 * @param array  $context context to the log message.
 	 */
-	public function error_output( $level, $message, array $context = array() ) {
-		if ( $this->level_to_numeric( $level ) < $this->level_to_numeric( 'error' ) ) {
+	public function error_output($level, $message, array $context = array())
+	{
+		if ($this->level_to_numeric($level) < $this->level_to_numeric('error')) {
 			return;
 		}
 
 		$this->error_output .= sprintf(
 			'[%s] %s<br>',
-			strtoupper( $level ),
+			strtoupper($level),
 			$message
 		);
 	}
