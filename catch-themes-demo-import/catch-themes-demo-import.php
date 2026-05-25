@@ -3,7 +3,7 @@
 Plugin Name: Catch Themes Demo Import
 Plugin URI: https://wordpress.org/plugins/catch-themes-demo-import/
 Description: Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data (design and content placement) you desire in just a single click.
-Version: 2.2
+Version: 3.0
 Author: Catch Plugins
 Author URI: http://www.catchplugins.com
 License: GPL3
@@ -16,6 +16,7 @@ defined('ABSPATH') or die('No script kiddies please!');
 /**
  * Main plugin class with initialization tasks.
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- bootstrap class in the main plugin file; cannot use namespace here.
 class CatchThemesDemoImportPlugin
 {
 	/**
@@ -37,6 +38,7 @@ class CatchThemesDemoImportPlugin
 			require_once CTDI_PATH . 'vendor/autoload.php';
 
 			// Instantiate the main plugin class *Singleton*.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local variable inside constructor, not exposed to global scope.
 			$pt_one_click_demo_import = CTDI\CatchThemesDemoImport::get_instance();
 
 			// Register WP CLI commands
@@ -45,6 +47,7 @@ class CatchThemesDemoImportPlugin
 				WP_CLI::add_command('ctdi import', array('CTDI\WPCLICommands', 'import'));
 			}
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only routing check during plugin activation.
 			if (isset($_GET['page']) && ('tgmpa-install-plugins' === $_GET['page'])) {
 				// Don't redirect when activated via TGM
 			} else {
@@ -109,26 +112,29 @@ class CatchThemesDemoImportPlugin
 	function ctdi_redirect_to_plugin_setting($plugin)
 	{
 		if ($plugin == plugin_basename(__FILE__)) {
-			exit(wp_redirect(
+			wp_safe_redirect(
 				add_query_arg(
 					array(
 						'page' => 'catch-themes-demo-import',
 					),
 					admin_url('themes.php')
 				)
-			));
+			);
+			exit;
 		}
 	}
 }
 
 // Instantiate the plugin class.
-$ctdi_plugin = new CatchThemesDemoImportPlugin();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- plugin bootstrap instantiation variable.
+$catch_themes_demo_import_ctdi_plugin = new CatchThemesDemoImportPlugin();
 
 /* CTP tabs removal options */
 require plugin_dir_path(__FILE__) . '/inc/ctp-tabs-removal.php';
 
-$ctp_options = ctp_get_options();
-if (1 == $ctp_options['theme_plugin_tabs']) {
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- ctp_ is the established short prefix for this shared Catch Themes library; variable is file-scoped bootstrap.
+$catch_themes_demo_import_ctp_options = ctp_get_options();
+if (1 == $catch_themes_demo_import_ctp_options['theme_plugin_tabs']) {
 	/* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
 	if (! class_exists('CatchThemesThemePlugin') && ! function_exists('add_our_plugins_tab')) {
 		require plugin_dir_path(__FILE__) . '/inc/CatchThemesThemePlugin.php';

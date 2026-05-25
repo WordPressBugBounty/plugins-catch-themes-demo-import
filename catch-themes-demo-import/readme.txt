@@ -3,22 +3,20 @@ Contributors: catchplugins, catchthemes, sakinshrestha, pratikshrestha, maheshma
 Donate link: https://catchplugins.com/plugins/catch-themes-demo-import/
 Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
-Tested up to: 6.9
-Stable tag: 2.2
+Requires PHP: 7.4
+Tested up to: 7.0
+Stable tag: 3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
 Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data
 
-Based on One Click Demo Import https://wordpress.org/plugins/one-click-demo-import/
-
 == Description ==
 
 Catch Themes Demo Import is a free demo importer WordPress plugin that lets you import the demo you desire in just a single click. The plugin works out of the box; all you have to do is install and activate the plugin and all the demos available on your currently used theme will be on your fingertips (visit **Appearance=> Import Demo Data**). If the theme doesn’t have any predefined import files, you’ll have to upload three files – a demo content XML file for content import, a WIE/JSON file for widget import, and a DAT file for customizer import. With the plugin activated, whether you have predefined demo files available or not, you’ll be able to import demos on your website without any hesitancy. Download Catch Themes Demo Import today and start importing theme demos to your website without affecting your wallet!
 
-> **Are you a theme author?**
->
-> Setup Catch Themes Demo Import for your theme and your users will thank you for it!
+**Are you a theme author?**
+Setup Catch Themes Demo Import for your theme and your users will thank you for it!
 
 This plugin will create a submenu page under Appearance with the title **Import demo data**.
 
@@ -299,6 +297,13 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 3.0 (Released: May 25, 2026) =
+* Bug Fixed: Full WordPress Plugin Check (PHPCS) compliance pass
+* Bug Fixed: Security hardening — sanitized and validated all $_GET, $_POST, and $_FILES reads; replaced wp_redirect() with wp_safe_redirect()
+* Bug Fixed: All admin scripts now enqueued in the footer; added missing direct-file-access guards to several class files
+* Bug Fixed: Added missing composer.json
+* Compatibility: Tested up to WordPress 7.0
 
 = 2.2 (Released: February 25, 2026) =
 * Bug Fixed: WordPress.WP.AlternativeFunctions.strip_tags_strip_tags

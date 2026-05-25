@@ -129,6 +129,7 @@ class Importer
 		$this->microtime = microtime(true);
 
 		// Increase PHP max execution time. Just in case, even though the AJAX calls are only 25 sec long.
+		// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- intentional execution-time extension for large imports; cp-ctdi/ is the established hook prefix for this plugin's public API.
 		set_time_limit(apply_filters('cp-ctdi/set_time_limit_for_demo_data_import', 300));
 
 		// Disable import of authors.
@@ -138,6 +139,7 @@ class Importer
 		add_filter('wxr_importer.pre_process.post', array($this, 'new_ajax_request_maybe'));
 
 		// Disables generation of multiple image sizes (thumbnails) in the content import step.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if (! apply_filters('cp-ctdi/regenerate_thumbnails_in_content_import', true)) {
 			add_filter('intermediate_image_sizes_advanced', '__return_null');
 		}
@@ -165,6 +167,7 @@ class Importer
 		$time = microtime(true) - $this->microtime;
 
 		// We should make a new ajax call, if the time is right.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if ($time > apply_filters('cp-ctdi/time_for_one_ajax_call', 25)) {
 			$response = array(
 				'status'  => 'newAJAX',

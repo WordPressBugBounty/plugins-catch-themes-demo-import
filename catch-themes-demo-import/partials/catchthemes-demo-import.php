@@ -48,11 +48,12 @@ if (! defined('ABSPATH')) exit;
                                     <?php echo esc_html__('Turn On Catch Themes & Catch Plugin tabs', 'catch-themes-demo-import');  ?>
                                 </td>
                                 <td>
-                                    <?php $ctp_options = ctp_get_options(); ?>
-                                    <div class="module-header <?php echo $ctp_options['theme_plugin_tabs'] ? 'active' : 'inactive'; ?>">
+                                    <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- ctp_ is the established short prefix for this shared Catch Themes library; variable is template-scoped.
+                                    $catch_themes_demo_import_ctp_options = ctp_get_options(); ?>
+                                    <div class="module-header <?php echo esc_attr($catch_themes_demo_import_ctp_options['theme_plugin_tabs'] ? 'active' : 'inactive'); ?>">
                                         <div class="switch">
                                             <input type="hidden" name="ctp_tabs_nonce" id="ctp_tabs_nonce" value="<?php echo esc_attr(wp_create_nonce('ctp_tabs_nonce')); ?>" />
-                                            <input type="checkbox" id="ctp_options[theme_plugin_tabs]" class="ctp-switch" rel="theme_plugin_tabs" <?php checked(true, $ctp_options['theme_plugin_tabs']); ?>>
+                                            <input type="checkbox" id="ctp_options[theme_plugin_tabs]" class="ctp-switch" rel="theme_plugin_tabs" <?php checked(true, $catch_themes_demo_import_ctp_options['theme_plugin_tabs']); ?>>
                                             <label for="ctp_options[theme_plugin_tabs]"></label>
                                         </div>
                                         <div class="loader"></div>

@@ -141,7 +141,7 @@ class CatchThemesDemoImport
 	public function create_plugin_page()
 	{
 		$this->plugin_page_setup = apply_filters(
-			'cp-ctdi/plugin_page_setup',
+			'cp-ctdi/plugin_page_setup', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			array(
 				'parent_slug' => 'themes.php',
 				'page_title'  => esc_html__('Catch Themes Demo Import', 'catch-themes-demo-import'),
@@ -157,9 +157,10 @@ class CatchThemesDemoImport
 			$this->plugin_page_setup['menu_title'],
 			$this->plugin_page_setup['capability'],
 			$this->plugin_page_setup['menu_slug'],
-			apply_filters('cp-ctdi/plugin_page_display_callback_function', array($this, 'display_plugin_page'))
+			apply_filters('cp-ctdi/plugin_page_display_callback_function', array($this, 'display_plugin_page')) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		register_importer($this->plugin_page_setup['menu_slug'], $this->plugin_page_setup['page_title'], $this->plugin_page_setup['menu_title'], apply_filters('cp-ctdi/plugin_page_display_callback_function', array($this, 'display_plugin_page')));
 	}
 
@@ -182,13 +183,14 @@ class CatchThemesDemoImport
 	public function admin_enqueue_scripts($hook)
 	{
 		// Enqueue the scripts only on the plugin page.
-		if ($this->plugin_page === $hook || ('admin.php' === $hook && $this->plugin_page_setup['menu_slug'] === esc_attr($_GET['import']))) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only routing check, no data modification.
+		if ($this->plugin_page === $hook || ('admin.php' === $hook && isset($_GET['import']) && $this->plugin_page_setup['menu_slug'] === sanitize_text_field(wp_unslash($_GET['import'])))) {
 			wp_enqueue_script('jquery-ui-dialog');
 			wp_enqueue_style('wp-jquery-ui-dialog');
-			wp_register_script('match-height-js', CTDI_URL . 'assets/js/jquery.matchHeight.min.js', array('jquery'), CTDI_VERSION);
-			wp_enqueue_script('ctdi-dashboard-js', CTDI_URL . 'assets/js/admin-dashboard.js', array('jquery', 'match-height-js'), CTDI_VERSION);
+			wp_register_script('match-height-js', CTDI_URL . 'assets/js/jquery.matchHeight.min.js', array('jquery'), CTDI_VERSION, true);
+			wp_enqueue_script('ctdi-dashboard-js', CTDI_URL . 'assets/js/admin-dashboard.js', array('jquery', 'match-height-js'), CTDI_VERSION, true);
 
-			wp_enqueue_script('ctdi-main-js', CTDI_URL . 'assets/js/main.js', array('jquery', 'jquery-ui-dialog'), CTDI_VERSION);
+			wp_enqueue_script('ctdi-main-js', CTDI_URL . 'assets/js/main.js', array('jquery', 'jquery-ui-dialog'), CTDI_VERSION, true);
 
 			// Get theme data.
 			$theme = wp_get_theme();
@@ -200,8 +202,8 @@ class CatchThemesDemoImport
 					'ajax_url'         => admin_url('admin-ajax.php'),
 					'ajax_nonce'       => wp_create_nonce('ctdi-ajax-verification'),
 					'import_files'     => $this->import_files,
-					'wp_customize_on'  => apply_filters('cp-ctdi/enable_wp_customize_save_hooks', false),
-					'import_popup'     => apply_filters('cp-ctdi/enable_grid_layout_import_popup_confirmation', true),
+					'wp_customize_on'  => apply_filters('cp-ctdi/enable_wp_customize_save_hooks', false), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+					'import_popup'     => apply_filters('cp-ctdi/enable_grid_layout_import_popup_confirmation', true), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					'theme_screenshot' => $theme->get_screenshot(),
 					'texts'            => array(
 						'missing_preview_image' => esc_html__('No preview image defined for this import.', 'catch-themes-demo-import'),
@@ -210,7 +212,7 @@ class CatchThemesDemoImport
 						'dialog_yes'            => esc_html__('Yes, import!', 'catch-themes-demo-import'),
 						'selected_import_title' => esc_html__('Selected demo import:', 'catch-themes-demo-import'),
 					),
-					'dialog_options'   => apply_filters('cp-ctdi/confirmation_dialog_options', array()),
+					'dialog_options'   => apply_filters('cp-ctdi/confirmation_dialog_options', array()), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 				)
 			);
 
@@ -238,6 +240,7 @@ class CatchThemesDemoImport
 	public function import_demo_data_ajax_callback()
 	{
 		// Try to update PHP memory limit (so that it does not run out of it).
+		// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- intentional memory limit increase for large imports; cp-ctdi/ is the established hook prefix for this plugin's public API.
 		ini_set('memory_limit', apply_filters('cp-ctdi/import_memory_limit', '350M'));
 
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
@@ -254,42 +257,49 @@ class CatchThemesDemoImport
 			$this->log_file_path = Helpers::get_log_path();
 
 			// Get selected file index or set it to 0.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above via Helpers::verify_ajax_call().
 			$this->selected_index = empty($_POST['selected']) ? 0 : absint($_POST['selected']);
 
 			/**
 			 * 1). Prepare import files.
 			 * Manually uploaded import files or predefined import files via filter: cp-ctdi/import_files
 			 */
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above via Helpers::verify_ajax_call().
 			if (! empty($_FILES)) { // Using manual file uploads?
 				// Get paths for the uploaded files.
 
 				/* File validation before uploading */
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified above; wp_handle_upload() validates and sanitizes file data.
 				if (! empty($_FILES['content_file']['name'])) {
-					$ext = explode('.', sanitize_file_name($_FILES['content_file']['name']));
+					$ext = explode('.', sanitize_file_name($_FILES['content_file']['name'])); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
 					if ('xml' !== strtolower($ext[count($ext) - 1])) {
 						die('Invalid file uploaded. Please upload valid XML file.');
 					}
 				}
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified above; file type validated by extension check below.
 				if (! empty($_FILES['widget_file']['name'])) {
-					$ext = explode('.', sanitize_file_name($_FILES['widget_file']['name']));
+					$ext = explode('.', sanitize_file_name($_FILES['widget_file']['name'])); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 					if ('json' !== strtolower($ext[count($ext) - 1]) && 'wie' !== strtolower($ext[count($ext) - 1])) {
 						die('Invalid file uploaded. Please upload valid WIE/JSON file.');
 					}
 				}
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified above; file type validated by extension check below.
 				if (! empty($_FILES['customizer_file']['name'])) {
-					$ext = explode('.', sanitize_file_name($_FILES['customizer_file']['name']));
+					$ext = explode('.', sanitize_file_name($_FILES['customizer_file']['name'])); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 					if ('dat' !== strtolower($ext[count($ext) - 1])) {
 						die('Invalid file uploaded. Please upload valid DAT file.');
 					}
 				}
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified above; file type validated by extension check below.
 				if (! empty($_FILES['redux_file']['name'])) {
-					$ext = explode('.', sanitize_file_name($_FILES['redux_file']['name']));
+					$ext = explode('.', sanitize_file_name($_FILES['redux_file']['name'])); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 					if ('json' !== strtolower($ext[count($ext) - 1])) {
 						die('Invalid file uploaded. Please upload valid JSON file.');
 					}
 				}
 
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified above; wp_handle_upload() validates file data.
 				$this->selected_import_files = Helpers::process_uploaded_files($_FILES, $this->log_file_path);
 
 				// Set the name of the import files, because we used the uploaded files.
@@ -337,6 +347,7 @@ class CatchThemesDemoImport
 			 * Default actions:
 			 * 1 - Before content import WP action (with priority 10).
 			 */
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			do_action('cp-ctdi/before_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 		}
 
@@ -356,6 +367,7 @@ class CatchThemesDemoImport
 		 * 2 - Import widgets (with priority 20).
 		 * 3 - Import Redux data (with priority 30).
 		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		do_action('cp-ctdi/after_content_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 
 		// Save the import data as a transient, so other import parts (in new AJAX calls) can use that data.
@@ -367,6 +379,7 @@ class CatchThemesDemoImport
 		}
 
 		// Request the after all import AJAX call.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if (false !== has_action('cp-ctdi/after_all_import_execution')) {
 			wp_send_json(array('status' => 'afterAllImportAJAX'));
 		}
@@ -395,10 +408,12 @@ class CatchThemesDemoImport
 			 * Default actions:
 			 * 1 - Customizer import (with priority 10).
 			 */
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			do_action('cp-ctdi/customizer_import_execution', $this->selected_import_files);
 		}
 
 		// Request the after all import AJAX call.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if (false !== has_action('cp-ctdi/after_all_import_execution')) {
 			wp_send_json(array('status' => 'afterAllImportAJAX'));
 		}
@@ -424,6 +439,7 @@ class CatchThemesDemoImport
 			 * Default actions:
 			 * 1 - after_import action (with priority 10).
 			 */
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			do_action('cp-ctdi/after_all_import_execution', $this->selected_import_files, $this->import_files, $this->selected_index);
 		}
 
@@ -566,10 +582,11 @@ class CatchThemesDemoImport
 
 	/**
 	 * Load the plugin textdomain, so that translations can be made.
+	 * WordPress 4.6+ automatically loads translations for .org-hosted plugins; no manual call needed.
 	 */
 	public function load_textdomain()
 	{
-		load_plugin_textdomain('catch-themes-demo-import', false, plugin_basename(dirname(dirname(__FILE__))) . '/languages');
+		// Intentionally empty: WordPress auto-loads translations since 4.6.
 	}
 
 
@@ -579,6 +596,7 @@ class CatchThemesDemoImport
 	public function setup_plugin_with_filter_data()
 	{
 		// Get info of import data files and filter it.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$this->import_files = Helpers::validate_import_file_info(apply_filters('cp-ctdi/import_files', array()));
 
 		/**
@@ -590,7 +608,7 @@ class CatchThemesDemoImport
 
 		// Importer options array.
 		$importer_options = apply_filters(
-			'cp-ctdi/importer_options',
+			'cp-ctdi/importer_options', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			array(
 				'fetch_attachments' => true,
 			)
@@ -598,7 +616,7 @@ class CatchThemesDemoImport
 
 		// Logger options for the logger used in the importer.
 		$logger_options = apply_filters(
-			'cp-ctdi/logger_options',
+			'cp-ctdi/logger_options', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			array(
 				'logger_min_level' => 'warning',
 			)

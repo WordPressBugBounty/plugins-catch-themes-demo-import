@@ -24,6 +24,7 @@ if (! defined('ABSPATH')) exit;
 		<div class="content">
 			<div class="module-container catch-themes-demo-import-options">
 				<?php
+				// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variables, all scoped to this included file.
 				$options    = catchids_get_options();
 				$post_types = catchids_get_all_post_types();
 				foreach ($post_types as $key => $value) :
@@ -92,4 +93,5 @@ if (! defined('ABSPATH')) exit;
 			</div><!-- .module-container -->
 		</div><!-- .content -->
 	</div> <!-- .content-wrapper -->
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
 </div> <!-- Main Content-->

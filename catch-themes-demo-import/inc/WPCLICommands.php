@@ -308,6 +308,7 @@ class WPCLICommands extends \WP_CLI_Command
 			));
 
 			ob_start();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- action name comes from cp-ctdi/ public API; dynamic by design for WP-CLI import orchestration.
 			do_action($action, $import_files, $all_import_files, $selected_index);
 			$message = ob_get_clean();
 

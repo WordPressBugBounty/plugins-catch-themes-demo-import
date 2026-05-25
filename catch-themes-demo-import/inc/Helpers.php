@@ -7,6 +7,9 @@
 
 namespace CTDI;
 
+// Exit if accessed directly
+if (! defined('ABSPATH')) exit;
+
 /**
  * Class with static helper functions.
  */
@@ -79,6 +82,7 @@ class Helpers
 			}
 		} else {
 			// Set the filename string for content import file.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			$content_filename = apply_filters('cp-ctdi/downloaded_content_file_prefix', 'demo-content-import-file_') . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_content_file_suffix_and_file_extension', '.xml');
 
 			// Download the content import file.
@@ -94,6 +98,7 @@ class Helpers
 		// Get widgets file as well. If defined!
 		if (! empty($import_file_info['import_widget_file_url'])) {
 			// Set the filename string for widgets import file.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			$widget_filename = apply_filters('cp-ctdi/downloaded_widgets_file_prefix', 'demo-widgets-import-file_') . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_widgets_file_suffix_and_file_extension', '.json');
 
 			// Download the widgets import file.
@@ -113,6 +118,7 @@ class Helpers
 		// Get customizer import file as well. If defined!
 		if (! empty($import_file_info['import_customizer_file_url'])) {
 			// Setup filename path to save the customizer content.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			$customizer_filename = apply_filters('cp-ctdi/downloaded_customizer_file_prefix', 'demo-customizer-import-file_') . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_customizer_file_suffix_and_file_extension', '.dat');
 
 			// Download the customizer import file.
@@ -135,7 +141,8 @@ class Helpers
 
 			// Setup filename paths to save the Redux content.
 			foreach ($import_file_info['import_redux'] as $index => $redux_item) {
-				$redux_filename = apply_filters('cp-ctdi/downloaded_redux_file_prefix', 'demo-redux-import-file_') . $index . '-' . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_redux_file_suffix_and_file_extension', '.json');
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+			$redux_filename = apply_filters('cp-ctdi/downloaded_redux_file_prefix', 'demo-redux-import-file_') . $index . '-' . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_redux_file_suffix_and_file_extension', '.json');
 
 				// Download the Redux import file.
 				$file_path = $downloader->download_file($redux_item['file_url'], $redux_filename);
@@ -190,6 +197,7 @@ class Helpers
 		}
 
 		// By this point, the $wp_filesystem global should be working, so let's use it to create a file.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $wp_filesystem is a WordPress core global; cannot be renamed.
 		global $wp_filesystem;
 
 		if (! $wp_filesystem->put_contents($file_path, $content)) {
@@ -229,6 +237,7 @@ class Helpers
 		}
 
 		// By this point, the $wp_filesystem global should be working, so let's use it to create a file.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $wp_filesystem is a WordPress core global; cannot be renamed.
 		global $wp_filesystem;
 
 		$existing_data = '';
@@ -272,6 +281,7 @@ class Helpers
 		}
 
 		// By this point, the $wp_filesystem global should be working, so let's use it to read a file.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $wp_filesystem is a WordPress core global; cannot be renamed.
 		global $wp_filesystem;
 
 		$data = $wp_filesystem->get_contents($file_path);
@@ -316,6 +326,7 @@ class Helpers
 		}
 
 		// Get plugin page settings.
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$plugin_page_setup = apply_filters(
 			'cp-ctdi/plugin_page_setup',
 			array(
@@ -326,6 +337,7 @@ class Helpers
 				'menu_slug'   => 'catch-themes-demo-import',
 			)
 		);
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		// Get user credentials for WP file-system API.
 		$demo_import_page_url = wp_nonce_url($plugin_page_setup['parent_slug'] . '?page=' . $plugin_page_setup['menu_slug'], $plugin_page_setup['menu_slug']);
@@ -357,8 +369,10 @@ class Helpers
 	public static function get_log_path()
 	{
 		$upload_dir  = wp_upload_dir();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$upload_path = apply_filters('cp-ctdi/upload_file_path', trailingslashit($upload_dir['path']));
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$log_path = $upload_path . apply_filters('cp-ctdi/log_file_prefix', 'log_file_') . self::$demo_import_start_time . apply_filters('cp-ctdi/log_file_suffix_and_file_extension', '.txt');
 
 		self::register_file_as_media_attachment($log_path);
@@ -377,12 +391,14 @@ class Helpers
 	{
 		// Check the type of file.
 		$log_mimes = array('txt' => 'text/plain');
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$filetype  = wp_check_filetype(basename($log_path), apply_filters('cp-ctdi/file_mimes', $log_mimes));
 
 		// Prepare an array of post data for the attachment.
 		$attachment = array(
 			'guid'           => self::get_log_url($log_path),
 			'post_mime_type' => $filetype['type'],
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			'post_title'     => apply_filters('cp-ctdi/attachment_prefix', esc_html__('Catch Themes Demo Import - ', 'catch-themes-demo-import')) . preg_replace('/\.[^.]+$/', '', basename($log_path)),
 			'post_content'   => '',
 			'post_status'    => 'inherit',
@@ -402,6 +418,7 @@ class Helpers
 	public static function get_log_url($log_path)
 	{
 		$upload_dir = wp_upload_dir();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$upload_url = apply_filters('cp-ctdi/upload_file_url', trailingslashit($upload_dir['url']));
 
 		return $upload_url . basename($log_path);
@@ -457,10 +474,11 @@ class Helpers
 		);
 
 		// Handle demo content and widgets file upload.
-		$content_file_info    = wp_handle_upload($_FILES['content_file'], $upload_overrides);
-		$widget_file_info     = wp_handle_upload($_FILES['widget_file'], $upload_overrides);
-		$customizer_file_info = wp_handle_upload($_FILES['customizer_file'], $upload_overrides);
-		$redux_file_info      = wp_handle_upload($_FILES['redux_file'], $upload_overrides);
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call(); wp_handle_upload() validates and sanitizes all file data.
+		$content_file_info    = wp_handle_upload($_FILES['content_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$widget_file_info     = wp_handle_upload($_FILES['widget_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$customizer_file_info = wp_handle_upload($_FILES['customizer_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		$redux_file_info      = wp_handle_upload($_FILES['redux_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
 
 		// Process content import file.
 		if ($content_file_info && ! isset($content_file_info['error'])) {
@@ -515,6 +533,7 @@ class Helpers
 
 		// Process Redux import file.
 		if ($redux_file_info && ! isset($redux_file_info['error'])) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call().
 			if (isset($_POST['redux_option_name']) && empty($_POST['redux_option_name'])) {
 				// Write error to log file and send an AJAX response with the error.
 				self::log_error_and_send_ajax_response(
@@ -527,7 +546,8 @@ class Helpers
 			// Set uploaded Redux file.
 			$selected_import_files['redux'] = array(
 				array(
-					'option_name' => $_POST['redux_option_name'],
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call().
+					'option_name' => isset($_POST['redux_option_name']) ? sanitize_text_field(wp_unslash($_POST['redux_option_name'])) : '',
 					'file_path'   => sanitize_file_name($redux_file_info['file']),
 				),
 			);
@@ -621,6 +641,7 @@ class Helpers
 
 	public static function set_demo_import_start_time()
 	{
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$format = apply_filters('cp-ctdi/date_format_for_file_names', 'Y-m-d__H-i-s');
 		self::$demo_import_start_time = gmdate($format);
 	}

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Catch Themes Demo Import\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2026-02-25 13:36+0545\n"
+"POT-Creation-Date: 2026-05-25 23:32+0545\n"
 "PO-Revision-Date: 2016-12-12 09:23-0500\n"
 "Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
 "Language-Team: Catch Plugins <info@catchplugins.com>\n"
@@ -14,14 +14,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-KeywordsList: "
 "__;_e;_n:1,2;_x:1,2c;esc_attr_e;esc_attr__;_nx;_x;esc_html_e;esc_html__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_n_noop:1,2;__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../catch-themes-demo-import.php:66
+#: ../catch-themes-demo-import.php:69
 #, php-format
 msgid ""
 "The %2$sCatch Themes Demo Import%3$s plugin requires %2$sPHP 5.3.2+%3$s to "
@@ -31,49 +31,49 @@ msgid ""
 msgstr ""
 
 #: ../inc/CatchThemesDemoImport.php:147 ../inc/CatchThemesDemoImport.php:148
-#: ../inc/Helpers.php:323 ../inc/Helpers.php:324
+#: ../inc/Helpers.php:334 ../inc/Helpers.php:335
 #: ../partials/catchthemes-demo-import.php:21
 msgid "Catch Themes Demo Import"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:207
+#: ../inc/CatchThemesDemoImport.php:209
 msgid "No preview image defined for this import."
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:208
+#: ../inc/CatchThemesDemoImport.php:210
 msgid "Are you sure?"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:209
+#: ../inc/CatchThemesDemoImport.php:211
 msgid "Cancel"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:210
+#: ../inc/CatchThemesDemoImport.php:212
 msgid "Yes, import!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:211
+#: ../inc/CatchThemesDemoImport.php:213
 msgid "Selected demo import:"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:296
+#: ../inc/CatchThemesDemoImport.php:306
 msgid "Manually uploaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:308 ../inc/CatchThemesDemoImport.php:320
+#: ../inc/CatchThemesDemoImport.php:318 ../inc/CatchThemesDemoImport.php:330
 msgid "Downloaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:316
+#: ../inc/CatchThemesDemoImport.php:326
 #, php-format
 msgid "The import files for: %s were successfully downloaded!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:324
+#: ../inc/CatchThemesDemoImport.php:334
 msgid "No import files specified!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:449
+#: ../inc/CatchThemesDemoImport.php:465
 #, php-format
 msgid ""
 "%1$s%3$sThat's it, all done!%4$s%2$sThe demo import has finished. Please "
@@ -82,27 +82,27 @@ msgid ""
 "it has done its job.%5$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:461
+#: ../inc/CatchThemesDemoImport.php:477
 #, php-format
 msgid ""
 "%1$sThe demo import has finished, but there were some import errors.%2$sMore "
 "details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:627 ../partials/display-dashboard.php:22
+#: ../inc/CatchThemesDemoImport.php:645 ../partials/display-dashboard.php:22
 msgid "Settings"
 msgstr ""
 
-#: ../inc/CatchThemesThemePlugin.php:161
+#: ../inc/CatchThemesThemePlugin.php:163
 msgid "Themes by CatchThemes"
 msgstr ""
 
-#: ../inc/CatchThemesThemePlugin.php:443
+#: ../inc/CatchThemesThemePlugin.php:449
 msgctxt "Plugin Installer"
 msgid "Catch Plugins"
 msgstr ""
 
-#: ../inc/CatchThemesThemePlugin.php:487
+#: ../inc/CatchThemesThemePlugin.php:493
 #, php-format
 msgid ""
 "You can use any of our free plugins or premium plugins from <a href=\"%s\" "
@@ -134,32 +134,32 @@ msgid ""
 "only import customizer settings for the same theme or a child theme."
 msgstr ""
 
-#: ../inc/Downloader.php:62
+#: ../inc/Downloader.php:66
 msgid "Missing URL for downloading a file!"
 msgstr ""
 
-#: ../inc/Downloader.php:81
+#: ../inc/Downloader.php:87
 #, php-format
 msgid ""
 "An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - "
 "%6$s."
 msgstr ""
 
-#: ../inc/Helpers.php:200 ../inc/Helpers.php:248
+#: ../inc/Helpers.php:208 ../inc/Helpers.php:257
 #, php-format
 msgid ""
 "An error occurred while writing file to your server! Tried to write a file "
 "to: %1$s%2$s."
 msgstr ""
 
-#: ../inc/Helpers.php:285
+#: ../inc/Helpers.php:295
 #, php-format
 msgid ""
 "An error occurred while reading a file from your server! Tried reading file "
 "from path: %1$s%2$s."
 msgstr ""
 
-#: ../inc/Helpers.php:310
+#: ../inc/Helpers.php:320
 #, php-format
 msgid ""
 "This WordPress page does not have %1$sdirect%2$s write file access. This "
@@ -168,96 +168,96 @@ msgid ""
 "%3$s."
 msgstr ""
 
-#: ../inc/Helpers.php:336
+#: ../inc/Helpers.php:348
 msgid ""
 "An error occurred while retrieving reading/writing permissions to your "
 "server (could not retrieve WP filesystem credentials)!"
 msgstr ""
 
-#: ../inc/Helpers.php:344
+#: ../inc/Helpers.php:356
 msgid "Your WordPress login credentials don't allow to use WP_Filesystem!"
 msgstr ""
 
-#: ../inc/Helpers.php:386
+#: ../inc/Helpers.php:402
 msgid "Catch Themes Demo Import - "
 msgstr ""
 
-#: ../inc/Helpers.php:426
+#: ../inc/Helpers.php:443
 #, php-format
 msgid ""
 "%1$sYour user role isn't high enough. You don't have permission to import "
 "demo data.%2$s"
 msgstr ""
 
-#: ../inc/Helpers.php:474
+#: ../inc/Helpers.php:492
 #, php-format
 msgid "Content file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:478 ../inc/Helpers.php:495 ../inc/Helpers.php:512
-#: ../inc/Helpers.php:523 ../inc/Helpers.php:543 ../inc/Helpers.php:551
+#: ../inc/Helpers.php:496 ../inc/Helpers.php:513 ../inc/Helpers.php:530
+#: ../inc/Helpers.php:542 ../inc/Helpers.php:563 ../inc/Helpers.php:571
 msgid "Upload files"
 msgstr ""
 
-#: ../inc/Helpers.php:491
+#: ../inc/Helpers.php:509
 #, php-format
 msgid "Widget file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:508
+#: ../inc/Helpers.php:526
 #, php-format
 msgid "Customizer file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:521
+#: ../inc/Helpers.php:540
 msgid "Missing Redux option name! Please also enter the Redux option name!"
 msgstr ""
 
-#: ../inc/Helpers.php:539
+#: ../inc/Helpers.php:559
 #, php-format
 msgid "Redux file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:549
+#: ../inc/Helpers.php:569
 msgid "The import files were successfully uploaded!"
 msgstr ""
 
-#: ../inc/Helpers.php:581
+#: ../inc/Helpers.php:601
 #, php-format
 msgid "Initial max execution time = %s"
 msgstr ""
 
-#: ../inc/Helpers.php:586
+#: ../inc/Helpers.php:606
 #, php-format
 msgid ""
 "Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = "
 "%4$s%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s"
 msgstr ""
 
-#: ../inc/Helpers.php:589 ../inc/Helpers.php:590 ../inc/Helpers.php:591
-#: ../inc/Helpers.php:592
+#: ../inc/Helpers.php:609 ../inc/Helpers.php:610 ../inc/Helpers.php:611
+#: ../inc/Helpers.php:612
 msgid "not defined!"
 msgstr ""
 
-#: ../inc/Importer.php:184
+#: ../inc/Importer.php:187
 msgid "New AJAX call!"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:25
+#: ../inc/ReduxImporter.php:28
 msgid "The Redux plugin is not activated, so the Redux import was skipped!"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:34 ../inc/ReduxImporter.php:59
-#: ../inc/ReduxImporter.php:75
+#: ../inc/ReduxImporter.php:37 ../inc/ReduxImporter.php:62
+#: ../inc/ReduxImporter.php:78
 msgid "Importing Redux settings"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:55
+#: ../inc/ReduxImporter.php:58
 #, php-format
 msgid "Redux settings import for: %s finished successfully!"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:64
+#: ../inc/ReduxImporter.php:67
 #, php-format
 msgid ""
 "The Redux option name: %s, was not found in this WP site, so it was not "
@@ -375,60 +375,60 @@ msgstr ""
 msgid "Executing action: %s ..."
 msgstr ""
 
-#: ../inc/WidgetImporter.php:40 ../inc/WidgetImporter.php:52
+#: ../inc/WidgetImporter.php:43 ../inc/WidgetImporter.php:55
 msgid "Importing widgets"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:88
+#: ../inc/WidgetImporter.php:91
 msgid "Error: Widget import file could not be found."
 msgstr ""
 
-#: ../inc/WidgetImporter.php:118
+#: ../inc/WidgetImporter.php:121
 msgid ""
 "Error: Widget import data could not be read. Please try a different file."
 msgstr ""
 
-#: ../inc/WidgetImporter.php:157
+#: ../inc/WidgetImporter.php:162
 msgid "Sidebar does not exist in theme (moving widget to Inactive)"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:178
+#: ../inc/WidgetImporter.php:183
 msgid "Site does not support widget"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:211
+#: ../inc/WidgetImporter.php:218
 msgid "Widget already exists"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:269
+#: ../inc/WidgetImporter.php:277
 msgid "Imported"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:273
+#: ../inc/WidgetImporter.php:281
 msgid "Imported to Inactive"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:279
+#: ../inc/WidgetImporter.php:287
 msgid "No Title"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:326
+#: ../inc/WidgetImporter.php:337
 msgid "No results for widget import!"
 msgstr ""
 
-#: ../inc/ctp-tabs-removal.php:62
+#: ../inc/ctp-tabs-removal.php:67
 msgid "Invalid Nonce"
 msgstr ""
 
-#: ../inc/ctp-tabs-removal.php:65
+#: ../inc/ctp-tabs-removal.php:70
 msgid "Permission denied!"
 msgstr ""
 
-#: ../inc/ctp-tabs-removal.php:78
+#: ../inc/ctp-tabs-removal.php:83
 msgid "Connection Error. Please try again."
 msgstr ""
 
-#: ../inc/demo-importer.php:49 ../inc/demo-importer.php:133
+#: ../inc/demo-importer.php:57 ../inc/demo-importer.php:145
 msgid ""
 "You do not have sufficient permissions to activate plugins for this site."
 msgstr ""
@@ -458,36 +458,36 @@ msgstr ""
 msgid "Turn On Catch Themes & Catch Plugin tabs"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:72
+#: ../partials/catchthemes-demo-import.php:73
 msgid "Features"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:78
+#: ../partials/catchthemes-demo-import.php:79
 msgid "Supports all themes on WordPress"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:79
+#: ../partials/catchthemes-demo-import.php:80
 msgid ""
 "You don’t have to worry if you have a slightly different or complicated "
 "theme installed on your website. It supports all the themes on WordPress and "
 "makes your website more striking and playful."
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:83
+#: ../partials/catchthemes-demo-import.php:84
 msgid "Lightweight"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:84
+#: ../partials/catchthemes-demo-import.php:85
 msgid ""
 "It is extremely lightweight. You do not need to worry about it affecting the "
 "space and speed of your website."
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:88
+#: ../partials/catchthemes-demo-import.php:89
 msgid "Responsive Design"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:89
+#: ../partials/catchthemes-demo-import.php:90
 msgid ""
 "One of the key features of our plugins is that your website will magically "
 "respond and adapt to different screen sizes delivering an optimized design "
@@ -495,11 +495,11 @@ msgid ""
 "zoom and scroll around when browsing on your mobile phone."
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:93
+#: ../partials/catchthemes-demo-import.php:94
 msgid "Incredible Support"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:94
+#: ../partials/catchthemes-demo-import.php:95
 msgid ""
 "We have a great line of support team and support documentation. You do not "
 "need to worry about how to use the plugins we provide, just refer to our "
@@ -507,30 +507,30 @@ msgid ""
 "your website, you can always hire our theme customizer!"
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:112
+#: ../partials/catchthemes-demo-import.php:113
 msgid ""
 "Please install Essential Content Types plugin to fully import the theme demo "
 "including Custom Post Types like Featured Content, Portfolio, Testimonials, "
 "and Services."
 msgstr ""
 
-#: ../partials/catchthemes-demo-import.php:119
+#: ../partials/catchthemes-demo-import.php:120
 msgid "Required plugin ECT has been activated, now you can import the demo"
 msgstr ""
 
-#: ../partials/display-dashboard.php:47
+#: ../partials/display-dashboard.php:48
 msgid "Media"
 msgstr ""
 
-#: ../partials/display-dashboard.php:59
+#: ../partials/display-dashboard.php:60
 msgid "Categories"
 msgstr ""
 
-#: ../partials/display-dashboard.php:71
+#: ../partials/display-dashboard.php:72
 msgid "Users"
 msgstr ""
 
-#: ../partials/display-dashboard.php:83
+#: ../partials/display-dashboard.php:84
 msgid "Comments"
 msgstr ""
 
@@ -550,118 +550,118 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: ../partials/plugin-page.php:32
+#: ../partials/plugin-page.php:35
 #, php-format
 msgid ""
 "%1$sWarning: your server is using %2$sPHP safe mode%3$s. This means that you "
 "might experience server timeout errors.%4$s"
 msgstr ""
 
-#: ../partials/plugin-page.php:45
+#: ../partials/plugin-page.php:48
 msgid "Before you begin, make sure all the required plugins are activated."
 msgstr ""
 
-#: ../partials/plugin-page.php:50
+#: ../partials/plugin-page.php:53
 msgid ""
 "Importing demo data (post, pages, images, theme settings, ...) is the "
 "easiest way to setup your theme."
 msgstr ""
 
-#: ../partials/plugin-page.php:51
+#: ../partials/plugin-page.php:54
 msgid ""
 "It will allow you to quickly edit everything instead of creating content "
 "from scratch."
 msgstr ""
 
-#: ../partials/plugin-page.php:56
+#: ../partials/plugin-page.php:59
 msgid "When you import the data, the following things might happen:"
 msgstr ""
 
-#: ../partials/plugin-page.php:59
+#: ../partials/plugin-page.php:62
 msgid ""
 "No existing posts, pages, categories, images, custom post types or any other "
 "data will be deleted or modified."
 msgstr ""
 
-#: ../partials/plugin-page.php:60
+#: ../partials/plugin-page.php:63
 msgid ""
 "Posts, pages, images, widgets, menus and other theme settings will get "
 "imported."
 msgstr ""
 
-#: ../partials/plugin-page.php:61
+#: ../partials/plugin-page.php:64
 msgid ""
 "Please click on the Import button only once and wait, it can take a couple "
 "of minutes."
 msgstr ""
 
-#: ../partials/plugin-page.php:78
+#: ../partials/plugin-page.php:82
 msgid "Switch to manual import!"
 msgstr ""
 
-#: ../partials/plugin-page.php:80
+#: ../partials/plugin-page.php:84
 msgid "Switch back to theme predefined imports!"
 msgstr ""
 
-#: ../partials/plugin-page.php:96
+#: ../partials/plugin-page.php:102
 msgid ""
 "There are no predefined import files available in this theme. Please upload "
 "the import files manually!"
 msgstr ""
 
-#: ../partials/plugin-page.php:105
+#: ../partials/plugin-page.php:111
 msgid "Manual demo files upload"
 msgstr ""
 
-#: ../partials/plugin-page.php:108
+#: ../partials/plugin-page.php:114
 msgid "Choose a XML file for content import:"
 msgstr ""
 
-#: ../partials/plugin-page.php:113
+#: ../partials/plugin-page.php:119
 msgid "Choose a WIE or JSON file for widget import:"
 msgstr ""
 
-#: ../partials/plugin-page.php:118
+#: ../partials/plugin-page.php:124
 msgid "Choose a DAT file for customizer import:"
 msgstr ""
 
-#: ../partials/plugin-page.php:124
+#: ../partials/plugin-page.php:130
 msgid "Choose a JSON file for Redux import:"
 msgstr ""
 
-#: ../partials/plugin-page.php:127
+#: ../partials/plugin-page.php:133
 msgid "Enter the Redux option name:"
 msgstr ""
 
-#: ../partials/plugin-page.php:135 ../partials/plugin-page.php:156
+#: ../partials/plugin-page.php:141 ../partials/plugin-page.php:162
 msgid "Import Demo Data"
 msgstr ""
 
-#: ../partials/plugin-page.php:171
+#: ../partials/plugin-page.php:178
 msgid "All"
 msgstr ""
 
-#: ../partials/plugin-page.php:178
+#: ../partials/plugin-page.php:185
 msgid "Search demos..."
 msgstr ""
 
-#: ../partials/plugin-page.php:203
+#: ../partials/plugin-page.php:210
 msgid "No preview image."
 msgstr ""
 
-#: ../partials/plugin-page.php:214
+#: ../partials/plugin-page.php:221
 msgid "Buy Now"
 msgstr ""
 
-#: ../partials/plugin-page.php:216
+#: ../partials/plugin-page.php:223
 msgid "Import"
 msgstr ""
 
-#: ../partials/plugin-page.php:220
+#: ../partials/plugin-page.php:227
 msgid "Preview"
 msgstr ""
 
-#: ../partials/plugin-page.php:233
+#: ../partials/plugin-page.php:242
 msgid "Importing, please wait!"
 msgstr ""
 

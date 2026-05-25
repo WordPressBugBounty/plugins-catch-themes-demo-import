@@ -79,6 +79,7 @@ class WXRImporter extends \CatchThemes\WPContentImporter2\WXRImporter
 	 */
 	public function woocommerce_product_attributes_registration($data)
 	{
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $wpdb is a WordPress core global; cannot be renamed.
 		global $wpdb;
 
 		if (strstr($data['taxonomy'], 'pa_')) {
@@ -94,6 +95,7 @@ class WXRImporter extends \CatchThemes\WPContentImporter2\WXRImporter
 						'attribute_orderby' => 'menu_order',
 						'attribute_public'  => 0
 					);
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- no WordPress API exists for inserting WooCommerce attribute taxonomies.
 					$wpdb->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attribute);
 					delete_transient('wc_attribute_taxonomies');
 				}
@@ -101,7 +103,9 @@ class WXRImporter extends \CatchThemes\WPContentImporter2\WXRImporter
 				// Register the taxonomy now so that the import works!
 				register_taxonomy(
 					$data['taxonomy'],
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- WooCommerce core hook names; cannot be renamed.
 					apply_filters('woocommerce_taxonomy_objects_' . $data['taxonomy'], array('product')),
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- WooCommerce core hook names; cannot be renamed.
 					apply_filters('woocommerce_taxonomy_args_' . $data['taxonomy'], array(
 						'hierarchical' => true,
 						'show_ui'      => false,

@@ -7,6 +7,9 @@
 
 namespace CTDI;
 
+// Exit if accessed directly
+if (! defined('ABSPATH')) exit;
+
 class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI
 {
 	/**

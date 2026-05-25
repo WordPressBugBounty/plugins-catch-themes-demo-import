@@ -33,6 +33,7 @@ class ImportActions
 		add_action('cp-ctdi/after_all_import_execution', array($this, 'after_import_action'), 10, 3);
 
 		// Special widget import cases.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp_ctdi/ is the established hook prefix for this plugin's public API (underscore variant).
 		if (apply_filters('cp_ctdi/enable_custom_menu_widget_ids_fix', true)) {
 			add_action('cp-ctdi/widget_settings_array', array($this, 'fix_custom_menu_widget_ids'));
 		}
@@ -54,9 +55,11 @@ class ImportActions
 		}
 
 		// Get import data, with new menu IDs.
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variables, not exposed to global scope.
 		$ctdi                = CatchThemesDemoImport::get_instance();
 		$content_import_data = $ctdi->importer->get_importer_data();
 		$term_ids            = $content_import_data['mapping']['term_id'];
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 		// Set the new menu ID for the widget.
 		$widget['nav_menu'] = $term_ids[$widget['nav_menu']];
@@ -158,10 +161,12 @@ class ImportActions
 	private function do_import_action($action, $selected_import)
 	{
 		if (false !== has_action($action)) {
+			// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variables, not exposed to global scope.
 			$ctdi          = CatchThemesDemoImport::get_instance();
 			$log_file_path = $ctdi->get_log_file_path();
 
 			ob_start();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- action name is from the cp-ctdi/ public API; dynamic by design.
 			do_action($action, $selected_import);
 			$message = ob_get_clean();
 
@@ -171,6 +176,7 @@ class ImportActions
 				$log_file_path,
 				$action
 			);
+			// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		}
 	}
 }

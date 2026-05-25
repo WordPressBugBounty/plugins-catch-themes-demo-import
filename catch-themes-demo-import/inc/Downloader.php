@@ -7,6 +7,9 @@
 
 namespace CTDI;
 
+// Exit if accessed directly
+if (! defined('ABSPATH')) exit;
+
 class Downloader
 {
 	/**
@@ -36,6 +39,7 @@ class Downloader
 	 */
 	public function download_file($url, $filename)
 	{
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variable, not exposed to global scope.
 		$content = $this->get_content_from_url($url);
 
 		// Check if there was an error and break out.
@@ -64,8 +68,10 @@ class Downloader
 		}
 
 		// Get file content from the server.
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variables, not exposed to global scope.
 		$response = wp_remote_get(
 			$url,
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			array('timeout' => apply_filters('cp-ctdi/timeout_for_downloading_import_file', 20))
 		);
 
@@ -86,11 +92,13 @@ class Downloader
 					$response_error['error_code'],
 					$response_error['error_message']
 				) . '<br>' .
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 					apply_filters('cp-ctdi/message_after_file_fetching_error', '')
 			);
 		}
 
 		// Return content retrieved from the URL.
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		return wp_remote_retrieve_body($response);
 	}
 
@@ -137,7 +145,9 @@ class Downloader
 		if (file_exists($download_directory_path)) {
 			$this->download_directory_path = $download_directory_path;
 		} else {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variable, not exposed to global scope.
 			$upload_dir = wp_upload_dir();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 			$this->download_directory_path = apply_filters('cp-ctdi/upload_file_path', trailingslashit($upload_dir['path']));
 		}
 	}

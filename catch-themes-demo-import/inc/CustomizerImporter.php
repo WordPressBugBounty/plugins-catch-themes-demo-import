@@ -112,6 +112,7 @@ class CustomizerImporter
 		}
 
 		// Import images.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if (apply_filters('cp-ctdi/customizer_import_images', true)) {
 			$data['mods'] = self::import_customizer_images($data['mods']);
 		}
@@ -135,15 +136,18 @@ class CustomizerImporter
 		}
 
 		// Should the customizer import use the WP customize_save* hooks?
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$use_wp_customize_save_hooks = apply_filters('cp-ctdi/enable_wp_customize_save_hooks', false);
 
 		if ($use_wp_customize_save_hooks) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core hook, used intentionally for customizer save lifecycle.
 			do_action('customize_save', $wp_customize);
 		}
 
 		// Loop through the mods and save the mods.
 		foreach ($data['mods'] as $key => $val) {
 			if ($use_wp_customize_save_hooks) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core dynamic hook, cannot be renamed.
 				do_action('customize_save_' . $key, $wp_customize);
 			}
 
@@ -151,6 +155,7 @@ class CustomizerImporter
 		}
 
 		if ($use_wp_customize_save_hooks) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core hook, used intentionally for customizer save lifecycle.
 			do_action('customize_save_after', $wp_customize);
 		}
 	}

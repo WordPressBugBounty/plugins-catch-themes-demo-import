@@ -10,6 +10,9 @@
 
 namespace CTDI;
 
+// Exit if accessed directly
+if (! defined('ABSPATH')) exit;
+
 class WidgetImporter {
 	/**
 	 * Import widgets from WIE or JSON file.
@@ -120,7 +123,9 @@ class WidgetImporter {
 		}
 
 		// Hook before import.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		do_action( 'cp-ctdi/widget_importer_before_widgets_import' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		$data = apply_filters( 'cp-ctdi/before_widgets_import_data', $data );
 
 		// Get all available widgets site supports.
@@ -181,6 +186,7 @@ class WidgetImporter {
 				// Filter to modify settings object before conversion to array and import.
 				// Leave this filter here for backwards compatibility with manipulating objects (before conversion to array below).
 				// Ideally the newer wie_widget_settings_array below will be used instead of this.
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 				$widget = apply_filters( 'cp-ctdi/widget_settings', $widget ); // Object.
 
 				// Convert multidimensional objects to multidimensional arrays.
@@ -193,6 +199,7 @@ class WidgetImporter {
 				// Filter to modify settings array.
 				// This is preferred over the older wie_widget_settings filter above.
 				// Do before identical check because changes may make it identical to end result (such as URL replacements).
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 				$widget = apply_filters( 'cp-ctdi/widget_settings_array', $widget );
 
 				// Does widget with identical settings already exist in same sidebar?
@@ -261,6 +268,7 @@ class WidgetImporter {
 						'widget_id_num'     => $new_instance_id_number,
 						'widget_id_num_old' => $instance_id_number,
 					);
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 					do_action( 'cp-ctdi/widget_importer_after_single_widget_import', $after_widget_import );
 
 					// Success message.
@@ -284,9 +292,11 @@ class WidgetImporter {
 		}
 
 		// Hook after import.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		do_action( 'cp-ctdi/widget_importer_after_widgets_import' );
 
 		// Return results.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		return apply_filters( 'cp-ctdi/widget_import_results', $results );
 	}
 
@@ -312,6 +322,7 @@ class WidgetImporter {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		return apply_filters( 'cp-ctdi/available_widgets', $available_widgets );
 	}
 

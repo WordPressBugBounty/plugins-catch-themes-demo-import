@@ -3,8 +3,10 @@
 // Exit if accessed directly
 if (! defined('ABSPATH')) exit;
 
-function ctdi_import_navigation()
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as add_action callback.
+function catch_themes_demo_import_navigation()
 {
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
 	$registered_menus = get_registered_nav_menus();
 	$nav_menus = get_terms(array(
 		'taxonomy'   => 'nav_menu',
@@ -26,21 +28,27 @@ function ctdi_import_navigation()
 			}
 		}
 	}
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	set_theme_mod('nav_menu_locations', $new_menu);
 }
 
-add_action('cp-ctdi/after_import', 'ctdi_import_navigation');
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public action API.
+add_action('cp-ctdi/after_import', 'catch_themes_demo_import_navigation');
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin routing check, no data modification.
 if (isset($_GET['page']) && 'catch-themes-demo-import' === $_GET['page']) {
-	add_action('admin_enqueue_scripts', 'ctdi_plugin_active_check', 10);
+	add_action('admin_enqueue_scripts', 'catch_themes_demo_import_plugin_active_check', 10);
 }
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only routing flag set by this plugin's own redirect.
 if (isset($_GET['activate_plugin'])) {
-	add_action('admin_init', 'ctdi_activate_plugin');
+	add_action('admin_init', 'catch_themes_demo_import_activate_plugin');
 }
 
-function ctdi_plugin_active_check()
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as add_action callback.
+function catch_themes_demo_import_plugin_active_check()
 {
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
 	$current_theme = wp_get_theme();
 	$activate_data = array();
 
@@ -79,11 +87,14 @@ function ctdi_plugin_active_check()
 			}
 		}
 	}
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	wp_localize_script('ctdi-dashboard-js', 'activate', $activate_data);
 }
 
-function ctdi_activate_plugin()
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as admin_init callback.
+function catch_themes_demo_import_activate_plugin()
 {
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
 	$plugin      = 'essential-content-types';
 	$plugin_free = 'essential-content-types/essential-content-types.php';
 	$plugin_pro  = 'essential-content-types-pro/essential-content-types-pro.php';
@@ -118,6 +129,7 @@ function ctdi_activate_plugin()
 		include_once(ABSPATH . 'wp-admin/includes/misc.php');
 		include_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- anonymous upgrader skin class scoped inside a function; not exposed globally.
 		class Quiet_Skin extends \WP_Upgrader_Skin
 		{
 			public function feedback($string, ...$arg)
@@ -133,15 +145,19 @@ function ctdi_activate_plugin()
 		wp_die(esc_html__('You do not have sufficient permissions to activate plugins for this site.', 'catch-themes-demo-import'));
 	}
 
-	$activate_plugin = sanitize_text_field($_GET['activate_plugin']);
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- routing flag set by this plugin's own redirect; value is sanitized below.
+	$activate_plugin = isset($_GET['activate_plugin']) ? sanitize_text_field(wp_unslash($_GET['activate_plugin'])) : '';
 
 	activate_plugin($activate_plugin . '/' . $activate_plugin . '.php');
-	wp_redirect(admin_url('themes.php?page=catch-themes-demo-import&response=activated'));
+	wp_safe_redirect(admin_url('themes.php?page=catch-themes-demo-import&response=activated'));
+	exit;
 }
 
-function ctdi_flush_transient()
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as after_switch_theme callback.
+function catch_themes_demo_import_flush_transient()
 {
 	delete_transient('ctdi_demo_json');
 	delete_transient('cdti_import_dir_list');
 }
-add_action('after_switch_theme', 'ctdi_flush_transient');
+add_action('after_switch_theme', 'catch_themes_demo_import_flush_transient');

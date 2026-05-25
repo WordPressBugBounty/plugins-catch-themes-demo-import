@@ -13,9 +13,12 @@ namespace CTDI;
 // Exit if accessed directly
 if (! defined('ABSPATH')) exit;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variable, scoped to this included file.
 $predefined_themes = $this->import_files;
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display routing check, no data modification.
 if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === $_GET['import-mode']) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variable, scoped to this included file.
 	$predefined_themes = array();
 }
 
@@ -62,7 +65,8 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 		</ul>
 
 		<?php if (! empty($this->import_files)) : ?>
-			<?php if (empty($_GET['import-mode']) || 'manual' !== $_GET['import-mode']) : ?>
+			<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display routing check, no data modification.
+			if (empty($_GET['import-mode']) || 'manual' !== $_GET['import-mode']) : ?>
 				<a href="
 				<?php
 				echo esc_url(
@@ -85,9 +89,11 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 	</div>
 
 	<?php
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variable, scoped to this included file.
 	$plugin_intro_text = ob_get_clean();
 
 	// Display the plugin intro text (can be replaced with custom text through the filter below).
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 	echo wp_kses_post(apply_filters('cp-ctdi/plugin_intro_text', $plugin_intro_text));
 	?>
 
@@ -161,6 +167,7 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 		<!-- CTDI grid layout -->
 		<div class="ctdi__gl  js-ctdi-gl">
 			<?php
+			// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variables, all scoped to this included file.
 			// Prepare navigation data.
 			$categories = Helpers::get_all_demo_import_categories($predefined_themes);
 			?>
@@ -227,7 +234,9 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 
 		<div id="js-ctdi-modal-content"></div>
 
-	<?php endif; ?>
+	<?php
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	endif; ?>
 
 	<p class="ctdi__ajax-loader  js-ctdi-ajax-loader">
 		<span class="spinner"></span> <?php esc_html_e('Importing, please wait!', 'catch-themes-demo-import'); ?>

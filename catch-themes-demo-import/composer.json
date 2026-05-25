@@ -1,0 +1,17 @@
+{
+    "name": "catchplugins/catch-themes-demo-import",
+    "description": "Catch Themes Demo Import WordPress plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "catchthemes/wp-content-importer-v2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "CTDI\\": "inc/"
+        }
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    }
+}
