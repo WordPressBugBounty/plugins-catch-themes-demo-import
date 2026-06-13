@@ -90,10 +90,11 @@ class CustomizerImporter
 			return $raw;
 		}
 
-		$data = unserialize($raw);
+		// Disallow object instantiation while unserializing the .dat file for safety.
+		$data = unserialize($raw, array('allowed_classes' => false));
 
 		// Data checks.
-		if (! is_array($data) && (! isset($data['template']) || ! isset($data['mods']))) {
+		if (! is_array($data) || ! isset($data['template']) || ! isset($data['mods'])) {
 			return new \WP_Error(
 				'customizer_import_data_error',
 				esc_html__('Error: The customizer import file is not in a correct format. Please make sure to use the correct customizer import file.', 'catch-themes-demo-import')
@@ -101,8 +102,9 @@ class CustomizerImporter
 		}
 
 		// Remove -pro if exist so that pro and free could import same customizer file.
-		$new_template      = preg_replace('/-pro$/', '', $template);
-		$new_data_template = preg_replace('/-pro$/', '', $data['template']);
+		// Use basename() so themes installed in a subfolder (e.g. "ct/catch-mag-pro") still match the demo's template slug ("catch-mag-pro").
+		$new_template      = preg_replace('/-pro$/', '', basename($template));
+		$new_data_template = preg_replace('/-pro$/', '', basename($data['template']));
 
 		if ($new_data_template !== $new_template) {
 			return new \WP_Error(

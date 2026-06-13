@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Catch Themes Demo Import\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2026-05-25 23:32+0545\n"
+"POT-Creation-Date: 2026-06-13 23:08+0545\n"
 "PO-Revision-Date: 2016-12-12 09:23-0500\n"
 "Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
 "Language-Team: Catch Plugins <info@catchplugins.com>\n"
@@ -122,13 +122,13 @@ msgstr ""
 msgid "Error: The customizer import file is missing! File path: %s"
 msgstr ""
 
-#: ../inc/CustomizerImporter.php:99
+#: ../inc/CustomizerImporter.php:100
 msgid ""
 "Error: The customizer import file is not in a correct format. Please make "
 "sure to use the correct customizer import file."
 msgstr ""
 
-#: ../inc/CustomizerImporter.php:110
+#: ../inc/CustomizerImporter.php:112
 msgid ""
 "Error: The customizer import file is not suitable for current theme. You can "
 "only import customizer settings for the same theme or a child theme."
@@ -195,7 +195,7 @@ msgid "Content file was not uploaded. Error: %s"
 msgstr ""
 
 #: ../inc/Helpers.php:496 ../inc/Helpers.php:513 ../inc/Helpers.php:530
-#: ../inc/Helpers.php:542 ../inc/Helpers.php:563 ../inc/Helpers.php:571
+#: ../inc/Helpers.php:542 ../inc/Helpers.php:565 ../inc/Helpers.php:573
 msgid "Upload files"
 msgstr ""
 
@@ -213,29 +213,29 @@ msgstr ""
 msgid "Missing Redux option name! Please also enter the Redux option name!"
 msgstr ""
 
-#: ../inc/Helpers.php:559
+#: ../inc/Helpers.php:561
 #, php-format
 msgid "Redux file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:569
+#: ../inc/Helpers.php:571
 msgid "The import files were successfully uploaded!"
 msgstr ""
 
-#: ../inc/Helpers.php:601
+#: ../inc/Helpers.php:603
 #, php-format
 msgid "Initial max execution time = %s"
 msgstr ""
 
-#: ../inc/Helpers.php:606
+#: ../inc/Helpers.php:608
 #, php-format
 msgid ""
 "Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = "
 "%4$s%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s"
 msgstr ""
 
-#: ../inc/Helpers.php:609 ../inc/Helpers.php:610 ../inc/Helpers.php:611
-#: ../inc/Helpers.php:612
+#: ../inc/Helpers.php:611 ../inc/Helpers.php:612 ../inc/Helpers.php:613
+#: ../inc/Helpers.php:614
 msgid "not defined!"
 msgstr ""
 

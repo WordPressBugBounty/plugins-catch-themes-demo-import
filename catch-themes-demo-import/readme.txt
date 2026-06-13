@@ -5,7 +5,7 @@ Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
 Requires PHP: 7.4
 Tested up to: 7.0
-Stable tag: 3.0
+Stable tag: 3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -297,6 +297,13 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 3.1 (Released: June 13, 2026) =
+* Bug Fixed: Customizer settings now import for themes installed in a subfolder (the import previously failed with "not suitable for current theme")
+* Bug Fixed: Customizer import file format check no longer passes invalid files through
+* Bug Fixed: Manually uploaded Redux files are now found and imported correctly
+* Bug Fixed: Correct error message is now logged when a content file upload fails
+* Security: Hardened the customizer .dat file reading
 
 = 3.0 (Released: May 25, 2026) =
 * Bug Fixed: Full WordPress Plugin Check (PHPCS) compliance pass

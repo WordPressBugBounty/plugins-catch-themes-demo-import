@@ -490,7 +490,7 @@ class Helpers
 				sprintf(
 					// Translators: %s is error message to be display while content file is not uploaded
 					__('Content file was not uploaded. Error: %s', 'catch-themes-demo-import'),
-					$widget_file_info['error']
+					$content_file_info['error']
 				),
 				$log_file_path,
 				esc_html__('Upload files', 'catch-themes-demo-import')
@@ -544,11 +544,13 @@ class Helpers
 			}
 
 			// Set uploaded Redux file.
+			// Note: do not run the full path through sanitize_file_name() — that strips the
+			// directory separators and the saved file can no longer be located on disk.
 			$selected_import_files['redux'] = array(
 				array(
 					// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call().
 					'option_name' => isset($_POST['redux_option_name']) ? sanitize_text_field(wp_unslash($_POST['redux_option_name'])) : '',
-					'file_path'   => sanitize_file_name($redux_file_info['file']),
+					'file_path'   => $redux_file_info['file'],
 				),
 			);
 		} else {
