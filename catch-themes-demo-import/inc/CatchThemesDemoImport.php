@@ -113,6 +113,7 @@ class CatchThemesDemoImport
 		add_action('wp_ajax_ctdi_import_demo_data', array($this, 'import_demo_data_ajax_callback'));
 		add_action('wp_ajax_ctdi_import_customizer_data', array($this, 'import_customizer_data_ajax_callback'));
 		add_action('wp_ajax_ctdi_after_import_data', array($this, 'after_all_import_data_ajax_callback'));
+		add_action('wp_ajax_ctdi_refresh_nonce', array($this, 'refresh_nonce_ajax_callback'));
 		add_action('after_setup_theme', array($this, 'setup_plugin_with_filter_data'));
 		add_action('plugins_loaded', array($this, 'load_textdomain'));
 		add_filter('plugin_action_links', array($this, 'action_links'), 10, 2);
@@ -445,6 +446,36 @@ class CatchThemesDemoImport
 
 		// Send a JSON response with final report.
 		$this->final_response();
+	}
+
+
+	/**
+	 * AJAX callback to issue a fresh security nonce when the original one has expired.
+	 *
+	 * The import is carried out over several AJAX calls and the nonce is generated only
+	 * once when the plugin page loads. A page that has been open for a while (or whose
+	 * login session has refreshed) can therefore hit an expired nonce, which WordPress
+	 * answers with HTTP 403 ("Forbidden"). The user is still authenticated at this point,
+	 * so we mint a new nonce here. This endpoint is intentionally NOT protected by a
+	 * nonce check -- it is gated by the same 'import' capability used for the import --
+	 * otherwise the expired nonce would block its own replacement.
+	 */
+	public function refresh_nonce_ajax_callback()
+	{
+		if (! is_user_logged_in() || ! current_user_can('import')) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__('Your user role isn\'t high enough. You don\'t have permission to import demo data.', 'catch-themes-demo-import'),
+				),
+				403
+			);
+		}
+
+		wp_send_json_success(
+			array(
+				'nonce' => wp_create_nonce('ctdi-ajax-verification'),
+			)
+		);
 	}
 
 

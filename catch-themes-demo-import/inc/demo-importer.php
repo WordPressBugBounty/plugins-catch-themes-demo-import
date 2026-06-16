@@ -7,33 +7,124 @@ if (! defined('ABSPATH')) exit;
 function catch_themes_demo_import_navigation()
 {
 	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
-	$registered_menus = get_registered_nav_menus();
-	$nav_menus = get_terms(array(
-		'taxonomy'   => 'nav_menu',
-		'hide_empty' => true,
-	));
 
-	$menus = array();
-	foreach ($nav_menus as $menu) {
-		$menus[$menu->name] = $menu->term_id;
+	// The customizer import already set nav_menu_locations to exactly the locations
+	// the demo uses -- but the menu IDs inside it are the OLD ids from the export
+	// site, so they no longer match the freshly imported menus. We only need to
+	// translate those old ids to the new ones, and ONLY for the locations the demo
+	// actually defined. (Previously this assigned a menu to EVERY registered location,
+	// which is why every header/right/footer/social area ended up with a menu instead
+	// of just the intended ones.)
+	$demo_locations = get_theme_mod('nav_menu_locations');
+
+	if (empty($demo_locations) || ! is_array($demo_locations)) {
+		return;
 	}
 
-	$new_menu = array();
-	foreach ($registered_menus as $location => $description) {
-		foreach ($menus as $key => $value) {
-			if (strpos($key, 'Social') !== false && strpos($location, 'social') !== false) {
-				$new_menu[$location] = $value;
-			} elseif (strpos($key, 'Social') === false && strpos($location, 'social') === false) {
-				$new_menu[$location] = $value;
+	// Old term id -> new term id map built during the content import.
+	$term_map = array();
+	if (class_exists('CTDI\\CatchThemesDemoImport')) {
+		$ctdi = \CTDI\CatchThemesDemoImport::get_instance();
+		if (! empty($ctdi->importer)) {
+			$importer_data = $ctdi->importer->get_importer_data();
+			if (! empty($importer_data['mapping']['term_id']) && is_array($importer_data['mapping']['term_id'])) {
+				$term_map = $importer_data['mapping']['term_id'];
+			}
+		}
+	}
+
+	// Imported menus indexed by name, used as a fallback when the id map is unavailable.
+	$menus_by_name = array();
+	foreach (get_terms(array('taxonomy' => 'nav_menu', 'hide_empty' => false)) as $menu) {
+		if (! is_wp_error($menu) && isset($menu->name)) {
+			$menus_by_name[$menu->name] = $menu->term_id;
+		}
+	}
+
+	$remapped = array();
+	foreach ($demo_locations as $location => $old_menu_id) {
+		if (! empty($term_map[$old_menu_id])) {
+			// Preferred: precise old menu id -> new menu id translation.
+			$remapped[$location] = (int) $term_map[$old_menu_id];
+		} elseif (false !== stripos((string) $location, 'social')) {
+			// Fallback: a "social" location gets the imported "Social" menu.
+			foreach ($menus_by_name as $name => $id) {
+				if (false !== stripos($name, 'social')) {
+					$remapped[$location] = $id;
+					break;
+				}
+			}
+		} else {
+			// Fallback: a non-social location gets the first non-social imported menu.
+			foreach ($menus_by_name as $name => $id) {
+				if (false === stripos($name, 'social')) {
+					$remapped[$location] = $id;
+					break;
+				}
 			}
 		}
 	}
 	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	set_theme_mod('nav_menu_locations', $new_menu);
+
+	if (! empty($remapped)) {
+		set_theme_mod('nav_menu_locations', $remapped);
+	}
 }
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public action API.
 add_action('cp-ctdi/after_import', 'catch_themes_demo_import_navigation');
+
+/**
+ * Clear existing widgets from the theme's widget areas right before the demo widgets
+ * are imported, so the demo's widget layout is applied cleanly.
+ *
+ * WordPress seeds every fresh install with default widgets (Search, Archives,
+ * Categories, ...). The widget importer only *appends*, so without this those
+ * defaults would sit alongside the imported demo widgets (e.g. "Archives" and
+ * "Categories" showing above the demo's "EW: About" in Footer 1). Existing widgets
+ * are moved to the Inactive Widgets area -- not deleted -- so nothing is lost and the
+ * behaviour can be turned off with the cp-ctdi/clear_widgets_before_import filter.
+ */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as add_action callback.
+function catch_themes_demo_import_clear_widgets()
+{
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+	if (! apply_filters('cp-ctdi/clear_widgets_before_import', true)) {
+		return;
+	}
+
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
+	$sidebars_widgets = get_option('sidebars_widgets', array());
+
+	if (! is_array($sidebars_widgets)) {
+		return;
+	}
+
+	$inactive = array();
+	if (! empty($sidebars_widgets['wp_inactive_widgets']) && is_array($sidebars_widgets['wp_inactive_widgets'])) {
+		$inactive = $sidebars_widgets['wp_inactive_widgets'];
+	}
+
+	foreach ($sidebars_widgets as $sidebar_id => $widgets) {
+		// Skip the inactive bucket and the non-array bookkeeping key.
+		if ('wp_inactive_widgets' === $sidebar_id || 'array_version' === $sidebar_id) {
+			continue;
+		}
+
+		if (! empty($widgets) && is_array($widgets)) {
+			// Park the existing widgets in the Inactive area (recoverable, not deleted).
+			$inactive = array_merge($inactive, $widgets);
+			$sidebars_widgets[$sidebar_id] = array();
+		}
+	}
+
+	$sidebars_widgets['wp_inactive_widgets'] = $inactive;
+	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
+	update_option('sidebars_widgets', $sidebars_widgets);
+}
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public action API.
+add_action('cp-ctdi/widget_importer_before_widgets_import', 'catch_themes_demo_import_clear_widgets');
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only admin routing check, no data modification.
 if (isset($_GET['page']) && 'catch-themes-demo-import' === $_GET['page']) {

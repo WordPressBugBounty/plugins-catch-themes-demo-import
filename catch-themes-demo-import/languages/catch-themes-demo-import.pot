@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Catch Themes Demo Import\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2026-06-13 23:08+0545\n"
+"POT-Creation-Date: 2026-06-16 10:25+0545\n"
 "PO-Revision-Date: 2016-12-12 09:23-0500\n"
 "Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
 "Language-Team: Catch Plugins <info@catchplugins.com>\n"
@@ -30,50 +30,56 @@ msgid ""
 "PHP: %2$s%1$s%3$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:147 ../inc/CatchThemesDemoImport.php:148
+#: ../inc/CatchThemesDemoImport.php:148 ../inc/CatchThemesDemoImport.php:149
 #: ../inc/Helpers.php:334 ../inc/Helpers.php:335
 #: ../partials/catchthemes-demo-import.php:21
 msgid "Catch Themes Demo Import"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:209
+#: ../inc/CatchThemesDemoImport.php:210
 msgid "No preview image defined for this import."
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:210
+#: ../inc/CatchThemesDemoImport.php:211
 msgid "Are you sure?"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:211
+#: ../inc/CatchThemesDemoImport.php:212
 msgid "Cancel"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:212
+#: ../inc/CatchThemesDemoImport.php:213
 msgid "Yes, import!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:213
+#: ../inc/CatchThemesDemoImport.php:214
 msgid "Selected demo import:"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:306
+#: ../inc/CatchThemesDemoImport.php:307
 msgid "Manually uploaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:318 ../inc/CatchThemesDemoImport.php:330
+#: ../inc/CatchThemesDemoImport.php:319 ../inc/CatchThemesDemoImport.php:331
 msgid "Downloaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:326
+#: ../inc/CatchThemesDemoImport.php:327
 #, php-format
 msgid "The import files for: %s were successfully downloaded!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:334
+#: ../inc/CatchThemesDemoImport.php:335
 msgid "No import files specified!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:465
+#: ../inc/CatchThemesDemoImport.php:468
+msgid ""
+"Your user role isn't high enough. You don't have permission to import demo "
+"data."
+msgstr ""
+
+#: ../inc/CatchThemesDemoImport.php:496
 #, php-format
 msgid ""
 "%1$s%3$sThat's it, all done!%4$s%2$sThe demo import has finished. Please "
@@ -82,14 +88,14 @@ msgid ""
 "it has done its job.%5$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:477
+#: ../inc/CatchThemesDemoImport.php:508
 #, php-format
 msgid ""
 "%1$sThe demo import has finished, but there were some import errors.%2$sMore "
 "details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:645 ../partials/display-dashboard.php:22
+#: ../inc/CatchThemesDemoImport.php:676 ../partials/display-dashboard.php:22
 msgid "Settings"
 msgstr ""
 
@@ -239,7 +245,7 @@ msgstr ""
 msgid "not defined!"
 msgstr ""
 
-#: ../inc/Importer.php:187
+#: ../inc/Importer.php:210
 msgid "New AJAX call!"
 msgstr ""
 
@@ -428,7 +434,7 @@ msgstr ""
 msgid "Connection Error. Please try again."
 msgstr ""
 
-#: ../inc/demo-importer.php:57 ../inc/demo-importer.php:145
+#: ../inc/demo-importer.php:148 ../inc/demo-importer.php:236
 msgid ""
 "You do not have sufficient permissions to activate plugins for this site."
 msgstr ""
@@ -444,6 +450,11 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
+#: ../partials/catchthemes-demo-import.php:30
+#: ../partials/catchthemes-demo-import.php:73
+msgid "Features"
+msgstr ""
+
 #: ../partials/catchthemes-demo-import.php:38
 msgid "Catch Themes & Catch Plugins Tabs"
 msgstr ""
@@ -456,10 +467,6 @@ msgstr ""
 
 #: ../partials/catchthemes-demo-import.php:48
 msgid "Turn On Catch Themes & Catch Plugin tabs"
-msgstr ""
-
-#: ../partials/catchthemes-demo-import.php:73
-msgid "Features"
 msgstr ""
 
 #: ../partials/catchthemes-demo-import.php:79
@@ -518,19 +525,19 @@ msgstr ""
 msgid "Required plugin ECT has been activated, now you can import the demo"
 msgstr ""
 
-#: ../partials/display-dashboard.php:48
+#: ../partials/display-dashboard.php:51
 msgid "Media"
 msgstr ""
 
-#: ../partials/display-dashboard.php:60
+#: ../partials/display-dashboard.php:63
 msgid "Categories"
 msgstr ""
 
-#: ../partials/display-dashboard.php:72
+#: ../partials/display-dashboard.php:75
 msgid "Users"
 msgstr ""
 
-#: ../partials/display-dashboard.php:84
+#: ../partials/display-dashboard.php:87
 msgid "Comments"
 msgstr ""
 
@@ -665,6 +672,12 @@ msgstr ""
 msgid "Importing, please wait!"
 msgstr ""
 
+#: ../partials/plugin-page.php:243
+msgid ""
+"Importing images, this can take a few minutes. Please keep this page open "
+"until it finishes."
+msgstr ""
+
 #: ../partials/sidebar.php:10
 msgid "Recommendations"
 msgstr ""
@@ -722,7 +735,7 @@ msgid ""
 "without affecting your wallet."
 msgstr ""
 
-#: ../partials/sidebar.php:43
+#: ../partials/sidebar.php:42
 msgid "check our free plugins."
 msgstr ""
 

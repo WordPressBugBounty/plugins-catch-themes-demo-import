@@ -138,6 +138,14 @@ class Importer
 		// Check, if we need to send another AJAX request and set the importing author to the current user.
 		add_filter('wxr_importer.pre_process.post', array($this, 'new_ajax_request_maybe'));
 
+		// Cap how long a single remote attachment download may take. Demo content often
+		// references full-size images on a remote server; a slow or unreachable image
+		// would otherwise block the request (WordPress defaults to 300s) long enough for
+		// the server to kill the worker, aborting the import with a network error. A
+		// short, filterable cap keeps each AJAX chunk responsive so the import can
+		// continue past a problematic image instead of dying.
+		add_filter('http_request_timeout', array($this, 'limit_attachment_download_timeout'));
+
 		// Disables generation of multiple image sizes (thumbnails) in the content import step.
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 		if (! apply_filters('cp-ctdi/regenerate_thumbnails_in_content_import', true)) {
@@ -153,6 +161,21 @@ class Importer
 
 		// Return any error messages for the front page output (errors, critical, alert and emergency level messages only).
 		return $this->logger->error_output;
+	}
+
+
+	/**
+	 * Cap the HTTP timeout used while downloading remote attachments during the import.
+	 *
+	 * @param int $timeout Current request timeout in seconds.
+	 * @return int Capped timeout.
+	 */
+	public function limit_attachment_download_timeout($timeout)
+	{
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+		$cap = (int) apply_filters('cp-ctdi/attachment_download_timeout', 20);
+
+		return ($timeout > $cap) ? $cap : $timeout;
 	}
 
 

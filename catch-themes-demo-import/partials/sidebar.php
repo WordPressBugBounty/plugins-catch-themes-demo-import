@@ -39,10 +39,8 @@ if (! defined('ABSPATH')) exit;
 			<div class="catchp-sidebar-spot">
 				<div class="sidebar-spot-inner">
 					<h3><?php esc_html_e('Free Plugins', 'catch-themes-demo-import'); ?></h3>
-					<p><?php esc_html_e('Check out our Free WordPress Plugins and get the taste of our service without affecting your wallet.', 'catch-themes-demo-import'); ?> <a target="_blank" href="https://catchplugins.com/plugins/tag/free/
-"><?php esc_html_e('check our free plugins.', 'catch-themes-demo-import'); ?></a></p>
-					<a class="catch-banner-link" target="_blank" href="https://catchplugins.com/plugins/tag/free/
-">
+					<p><?php esc_html_e('Check out our Free WordPress Plugins and get the taste of our service without affecting your wallet.', 'catch-themes-demo-import'); ?> <a target="_blank" href="https://catchplugins.com/plugins/tag/free/"><?php esc_html_e('check our free plugins.', 'catch-themes-demo-import'); ?></a></p>
+					<a class="catch-banner-link" target="_blank" href="https://catchplugins.com/plugins/tag/free/">
 						<img class="catch-banner-image" src="<?php echo esc_url(plugins_url('images/free-plugin-246x116.png', dirname(__FILE__))); ?>" alt="catch" width="246" height="116"></a>
 				</div>
 			</div>

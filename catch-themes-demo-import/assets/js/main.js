@@ -345,11 +345,67 @@ jQuery(function ($) {
 	}
 
 	/**
+	 * Display an import error notice and stop the loading spinner.
+	 *
+	 * @param string message The message to display (already HTML-safe).
+	 */
+	function showImportError(message) {
+		$('.js-ctdi-ajax-response').append(
+			'<div class="notice  notice-error  is-dismissible"><p>' +
+				message +
+				'</p></div>'
+		);
+		$('.js-ctdi-ajax-loader').hide();
+	}
+
+	/**
+	 * Fetch a fresh security nonce (the user is still logged in) and retry the
+	 * request once. Solves the intermittent "Forbidden (403)" that happens when the
+	 * page's original nonce has expired.
+	 *
+	 * @param FormData data The data of the request that failed with a 403.
+	 */
+	function refreshNonceAndRetry(data) {
+		$.post(ctdi.ajax_url, { action: 'ctdi_refresh_nonce' })
+			.done(function (response) {
+				if (
+					response &&
+					response.success &&
+					response.data &&
+					response.data.nonce
+				) {
+					// Update the nonce everywhere it is used.
+					ctdi.ajax_nonce = response.data.nonce;
+
+					if (typeof data.set === 'function') {
+						data.set('security', response.data.nonce);
+					} else {
+						// Fallback for very old browsers: a later value wins in PHP.
+						data.append('security', response.data.nonce);
+					}
+
+					// Retry the original request once with the fresh nonce.
+					ajaxCall(data, true);
+				} else {
+					showImportError(
+						'Error: Forbidden (403). Your security token expired. Please reload this page and start the import again.'
+					);
+				}
+			})
+			.fail(function () {
+				showImportError(
+					'Error: Forbidden (403). Your security token expired. Please reload this page and start the import again.'
+				);
+			});
+	}
+
+	/**
 	 * The main AJAX call, which executes the import process.
 	 *
-	 * @param FormData data The data to be passed to the AJAX call.
+	 * @param FormData data    The data to be passed to the AJAX call.
+	 * @param bool     isRetry Whether this call is already a nonce-refresh retry.
 	 */
-	function ajaxCall(data) {
+	function ajaxCall(data, isRetry) {
 		$.ajax({
 			method: 'POST',
 			url: ctdi.ajax_url,
@@ -408,15 +464,21 @@ jQuery(function ($) {
 				}
 			})
 			.fail(function (error) {
-				$('.js-ctdi-ajax-response').append(
-					'<div class="notice  notice-error  is-dismissible"><p>Error: ' +
+				// A 403 means the security nonce went stale (e.g. the page was open a
+				// while). The user is still logged in, so fetch a fresh nonce and retry
+				// this request once before giving up.
+				if (403 === error.status && !isRetry) {
+					refreshNonceAndRetry(data);
+					return;
+				}
+
+				showImportError(
+					'Error: ' +
 						error.statusText +
 						' (' +
 						error.status +
-						')' +
-						'</p></div>'
+						')'
 				);
-				$('.js-ctdi-ajax-loader').hide();
 			});
 	}
 });

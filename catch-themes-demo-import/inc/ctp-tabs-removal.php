@@ -43,7 +43,7 @@ if (! function_exists('ctp_default_options')) {
 	function ctp_default_options($option = null)
 	{
 		$default_options['theme_plugin_tabs'] = 1;
-		if (null == $option) {
+		if (null === $option) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- ctp_ is the established short prefix for this shared Catch Themes library.
 			return apply_filters('ctp_options', $default_options);
 		} else {
@@ -69,7 +69,7 @@ if (! function_exists('ctp_switch')) {
 			if (! current_user_can('manage_options')) {
 				wp_die(esc_html__('Permission denied!', 'catch-themes-demo-import'));
 			}
-			$value = (isset($_POST['value']) && 'true' === $_POST['value']) ? 1 : 0;
+			$value = (isset($_POST['value']) && 'true' === wp_unslash($_POST['value'])) ? 1 : 0; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- value is compared to a fixed string; result is cast to int 0 or 1.
 
 			$option_name = isset($_POST['option_name']) ? sanitize_key(wp_unslash($_POST['option_name'])) : '';
 

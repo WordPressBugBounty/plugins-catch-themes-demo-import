@@ -5,7 +5,7 @@ Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
 Requires PHP: 7.4
 Tested up to: 7.0
-Stable tag: 3.1
+Stable tag: 3.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -297,6 +297,15 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 3.2 (Released: June 16, 2026) =
+* Bug Fixed: Large demo imports no longer stall mid-way — the importer keeps its progress for the entire run and shows a status note while images download
+* Bug Fixed: A slow or unreachable image no longer halts the whole import; the importer skips it and continues
+* Bug Fixed: Imported menus are now assigned only to the locations the demo actually defines, not forced into every header, footer, and social area
+* Bug Fixed: Widget areas are cleared before demo widgets are imported so default WordPress widgets do not mix in; cleared widgets move to Inactive Widgets, not deleted
+* Bug Fixed: Import no longer fails with a 403 Forbidden error if the page is left open — the security token is refreshed automatically
+* Bug Fixed: Broken "Free Plugins" sidebar links, missing HTTPS on plugin header URLs, and a missing translatable label on the Features tab
+* Security: Hardened POST value handling and applied strict type comparisons throughout
 
 = 3.1 (Released: June 13, 2026) =
 * Bug Fixed: Customizer settings now import for themes installed in a subfolder (the import previously failed with "not suitable for current theme")

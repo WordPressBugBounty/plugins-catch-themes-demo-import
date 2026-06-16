@@ -3,11 +3,11 @@
 Plugin Name: Catch Themes Demo Import
 Plugin URI: https://wordpress.org/plugins/catch-themes-demo-import/
 Description: Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data (design and content placement) you desire in just a single click.
-Version: 3.1
+Version: 3.2
 Author: Catch Plugins
-Author URI: http://www.catchplugins.com
+Author URI: https://catchplugins.com
 License: GPL3
-License URI: http://www.gnu.org/licenses/gpl.html
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: catch-themes-demo-import
 */
 
@@ -134,7 +134,7 @@ require plugin_dir_path(__FILE__) . '/inc/ctp-tabs-removal.php';
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- ctp_ is the established short prefix for this shared Catch Themes library; variable is file-scoped bootstrap.
 $catch_themes_demo_import_ctp_options = ctp_get_options();
-if (1 == $catch_themes_demo_import_ctp_options['theme_plugin_tabs']) {
+if (1 === (int) $catch_themes_demo_import_ctp_options['theme_plugin_tabs']) {
 	/* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
 	if (! class_exists('CatchThemesThemePlugin') && ! function_exists('add_our_plugins_tab')) {
 		require plugin_dir_path(__FILE__) . '/inc/CatchThemesThemePlugin.php';

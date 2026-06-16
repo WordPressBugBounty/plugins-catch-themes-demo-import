@@ -115,6 +115,13 @@ p.ctdi__ajax-loader {
 	margin-bottom: 6px;
 }
 
+.ctdi__ajax-loader-note {
+	display: block;
+	margin-top: 4px;
+	font-size: 0.7em;
+	color: #646970;
+}
+
 
 /* New grid layout */
 

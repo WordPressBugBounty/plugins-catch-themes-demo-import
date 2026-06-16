@@ -240,6 +240,7 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 
 	<p class="ctdi__ajax-loader  js-ctdi-ajax-loader">
 		<span class="spinner"></span> <?php esc_html_e('Importing, please wait!', 'catch-themes-demo-import'); ?>
+		<span class="ctdi__ajax-loader-note"><?php esc_html_e('Importing images, this can take a few minutes. Please keep this page open until it finishes.', 'catch-themes-demo-import'); ?></span>
 	</p>
 
 	<div class="ctdi__response  js-ctdi-ajax-response"></div>

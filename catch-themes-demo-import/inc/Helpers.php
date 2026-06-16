@@ -707,6 +707,16 @@ class Helpers
 	 */
 	public static function set_ctdi_import_data_transient($data)
 	{
-		set_transient('ctdi_importer_data', $data, 0.1 * HOUR_IN_SECONDS);
+		// Lifetime of the import "resume" state shared between the multiple AJAX calls.
+		// This MUST outlast the whole import. Image-heavy demos that download remote
+		// attachments can run for many minutes, so the previous 6-minute (0.1 hour)
+		// lifetime expired mid-import: the next AJAX call then found no resume data,
+		// restarted the import from the beginning, re-downloaded the same files and
+		// got stuck repeating "New AJAX call!" without ever finishing. Use a long,
+		// filterable lifetime so large imports can complete.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+		$expiration = apply_filters('cp-ctdi/importer_data_transient_expiration', DAY_IN_SECONDS);
+
+		set_transient('ctdi_importer_data', $data, $expiration);
 	}
 }

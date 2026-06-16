@@ -25,6 +25,9 @@ if (! defined('ABSPATH')) exit;
 			<div class="module-container catch-themes-demo-import-options">
 				<?php
 				// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variables, all scoped to this included file.
+				if ( ! function_exists( 'catchids_get_options' ) || ! function_exists( 'catchids_get_all_post_types' ) ) {
+					return;
+				}
 				$options    = catchids_get_options();
 				$post_types = catchids_get_all_post_types();
 				foreach ($post_types as $key => $value) :
@@ -32,9 +35,9 @@ if (! defined('ABSPATH')) exit;
 					<!-- Custom Post Types -->
 					<div id="module-<?php echo esc_attr($key); ?>" class="catch-modules">
 						<div class="module-header <?php echo esc_attr($options[$key] ? 'active' : 'inactive'); ?>">
-							<h3 class="module-title"><?php esc_html($value); ?></h3>
+							<h3 class="module-title"><?php echo esc_html($value); ?></h3>
 							<div class="switch">
-								<input type="checkbox" id="catchids_options[<?php echo esc_html($key); ?>]" class="catchids-input-switch" rel="<?php echo esc_attr($key); ?>" <?php checked(true, esc_attr($options[$key])); ?>>
+								<input type="checkbox" id="catchids_options[<?php echo esc_html($key); ?>]" class="catchids-input-switch" rel="<?php echo esc_attr($key); ?>" <?php checked(true, $options[$key]); ?>>
 								<label for="catchids_options[<?php echo esc_attr($key); ?>]"></label>
 							</div>
 							<div class="loader"></div>
@@ -79,7 +82,7 @@ if (! defined('ABSPATH')) exit;
 				</div><!-- .catch-modules -->
 
 				<!-- Comments -->
-				<div id="module-<?php echo 'comment'; ?>" class="catch-modules">
+				<div id="module-<?php echo esc_attr('comment'); ?>" class="catch-modules">
 					<div class="module-header <?php echo esc_attr($options['comment'] ? 'active' : 'inactive'); ?>">
 						<h3 class="module-title"><?php esc_html_e('Comments', 'catch-themes-demo-import'); ?></h3>
 						<div class="switch">

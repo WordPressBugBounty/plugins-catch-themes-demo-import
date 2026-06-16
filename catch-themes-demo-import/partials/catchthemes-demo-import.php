@@ -27,7 +27,7 @@ if (! defined('ABSPATH')) exit;
 
             <h2 class="nav-tab-wrapper">
                 <a class="nav-tab nav-tab-active" id="dashboard-tab" href="#dashboard"><?php esc_html_e('Dashboard', 'catch-themes-demo-import'); ?></a>
-                <a class="nav-tab" id="features-tab" href="#features">Features</a>
+                <a class="nav-tab" id="features-tab" href="#features"><?php esc_html_e('Features', 'catch-themes-demo-import'); ?></a>
             </h2>
 
             <div id="dashboard" class="wpcatchtab  nosave active">
