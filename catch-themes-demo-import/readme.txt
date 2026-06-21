@@ -5,7 +5,7 @@ Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
 Requires PHP: 7.4
 Tested up to: 7.0
-Stable tag: 3.2
+Stable tag: 3.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -297,6 +297,13 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 3.3 (Released: June 21, 2026) =
+* Added: initial Block / Full Site Editing theme support — imports Global Styles, Navigation and customized templates/parts, and remaps IDs in block content; runs automatically when a block theme is active
+* Added: Block theme demos can set the WooCommerce Shop, Cart, Checkout and My Account pages to the imported demo pages, so the Shop and other store pages work right after import
+* Bug Fixed: Import no longer fails with "Error: OK (200)" on sites that display PHP notices — error output from other plugins/themes can no longer corrupt the importer's response (errors are still written to the debug log)
+* Bug Fixed: Imported block themes' templates, template parts and navigation no longer show "Block contains unexpected or invalid content" in the editor — block markup is now preserved exactly during import
+* Bug Fixed: Imported menu links (and other links baked into the demo) now point to the site they are imported on, instead of the original demo site
 
 = 3.2 (Released: June 16, 2026) =
 * Bug Fixed: Large demo imports no longer stall mid-way — the importer keeps its progress for the entire run and shows a status note while images download

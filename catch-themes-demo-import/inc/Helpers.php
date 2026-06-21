@@ -426,10 +426,29 @@ class Helpers
 
 
 	/**
+	 * Prevent PHP error *display* from corrupting an AJAX/JSON response for the
+	 * remainder of this request. Errors are still written to the debug log
+	 * (WP_DEBUG_LOG); they are just not echoed into the body, where they would
+	 * break JSON parsing.
+	 */
+	public static function silence_error_display()
+	{
+		// phpcs:ignore WordPress.PHP.IniSet.display_errors_Disallowed -- silencing error display (not logging) for a JSON endpoint.
+		@ini_set('display_errors', '0');
+	}
+
+	/**
 	 * Check if the AJAX call is valid.
 	 */
 	public static function verify_ajax_call()
 	{
+		// Keep PHP error output from corrupting this AJAX request's JSON response.
+		// With WP_DEBUG_DISPLAY enabled, notices/warnings/deprecations from WordPress,
+		// the active theme or other plugins are echoed into the body and break JSON
+		// parsing (the import then fails on the front end with "Error: OK (200)").
+		// They are still recorded in the debug log via WP_DEBUG_LOG.
+		self::silence_error_display();
+
 		check_ajax_referer('ctdi-ajax-verification', 'security');
 
 

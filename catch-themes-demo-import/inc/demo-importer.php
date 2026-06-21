@@ -252,3 +252,7 @@ function catch_themes_demo_import_flush_transient()
 	delete_transient('cdti_import_dir_list');
 }
 add_action('after_switch_theme', 'catch_themes_demo_import_flush_transient');
+
+// Register the Block (FSE) theme import steps. Hooked on after_setup_theme so that
+// wp_is_block_theme() is reliable; the class itself bails out for classic themes.
+add_action('after_setup_theme', array('CTDI\\BlockImporter', 'maybe_register'), 20);

@@ -462,6 +462,9 @@ class CatchThemesDemoImport
 	 */
 	public function refresh_nonce_ajax_callback()
 	{
+		// Keep stray PHP output from corrupting this JSON response.
+		Helpers::silence_error_display();
+
 		if (! is_user_logged_in() || ! current_user_can('import')) {
 			wp_send_json_error(
 				array(

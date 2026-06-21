@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Catch Themes Demo Import\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2026-06-16 10:25+0545\n"
+"POT-Creation-Date: 2026-06-21 22:44+0545\n"
 "PO-Revision-Date: 2016-12-12 09:23-0500\n"
 "Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
 "Language-Team: Catch Plugins <info@catchplugins.com>\n"
@@ -28,6 +28,10 @@ msgid ""
 "run properly. Please contact your hosting company and ask them to update the "
 "PHP version of your site to at least PHP 5.3.2.%4$s Your current version of "
 "PHP: %2$s%1$s%3$s"
+msgstr ""
+
+#: ../inc/BlockImporter.php:130
+msgid "Navigation"
 msgstr ""
 
 #: ../inc/CatchThemesDemoImport.php:148 ../inc/CatchThemesDemoImport.php:149
@@ -73,13 +77,13 @@ msgstr ""
 msgid "No import files specified!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:468
+#: ../inc/CatchThemesDemoImport.php:471
 msgid ""
 "Your user role isn't high enough. You don't have permission to import demo "
 "data."
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:496
+#: ../inc/CatchThemesDemoImport.php:499
 #, php-format
 msgid ""
 "%1$s%3$sThat's it, all done!%4$s%2$sThe demo import has finished. Please "
@@ -88,14 +92,14 @@ msgid ""
 "it has done its job.%5$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:508
+#: ../inc/CatchThemesDemoImport.php:511
 #, php-format
 msgid ""
 "%1$sThe demo import has finished, but there were some import errors.%2$sMore "
 "details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:676 ../partials/display-dashboard.php:22
+#: ../inc/CatchThemesDemoImport.php:679 ../partials/display-dashboard.php:22
 msgid "Settings"
 msgstr ""
 
@@ -188,60 +192,60 @@ msgstr ""
 msgid "Catch Themes Demo Import - "
 msgstr ""
 
-#: ../inc/Helpers.php:443
+#: ../inc/Helpers.php:462
 #, php-format
 msgid ""
 "%1$sYour user role isn't high enough. You don't have permission to import "
 "demo data.%2$s"
 msgstr ""
 
-#: ../inc/Helpers.php:492
+#: ../inc/Helpers.php:511
 #, php-format
 msgid "Content file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:496 ../inc/Helpers.php:513 ../inc/Helpers.php:530
-#: ../inc/Helpers.php:542 ../inc/Helpers.php:565 ../inc/Helpers.php:573
+#: ../inc/Helpers.php:515 ../inc/Helpers.php:532 ../inc/Helpers.php:549
+#: ../inc/Helpers.php:561 ../inc/Helpers.php:584 ../inc/Helpers.php:592
 msgid "Upload files"
 msgstr ""
 
-#: ../inc/Helpers.php:509
+#: ../inc/Helpers.php:528
 #, php-format
 msgid "Widget file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:526
+#: ../inc/Helpers.php:545
 #, php-format
 msgid "Customizer file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:540
+#: ../inc/Helpers.php:559
 msgid "Missing Redux option name! Please also enter the Redux option name!"
 msgstr ""
 
-#: ../inc/Helpers.php:561
+#: ../inc/Helpers.php:580
 #, php-format
 msgid "Redux file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:571
+#: ../inc/Helpers.php:590
 msgid "The import files were successfully uploaded!"
 msgstr ""
 
-#: ../inc/Helpers.php:603
+#: ../inc/Helpers.php:622
 #, php-format
 msgid "Initial max execution time = %s"
 msgstr ""
 
-#: ../inc/Helpers.php:608
+#: ../inc/Helpers.php:627
 #, php-format
 msgid ""
 "Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = "
 "%4$s%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s"
 msgstr ""
 
-#: ../inc/Helpers.php:611 ../inc/Helpers.php:612 ../inc/Helpers.php:613
-#: ../inc/Helpers.php:614
+#: ../inc/Helpers.php:630 ../inc/Helpers.php:631 ../inc/Helpers.php:632
+#: ../inc/Helpers.php:633
 msgid "not defined!"
 msgstr ""
 
