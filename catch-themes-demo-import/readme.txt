@@ -5,7 +5,7 @@ Tags: import, content, demo, settings, theme options
 Requires at least: 5.9
 Requires PHP: 7.4
 Tested up to: 7.0
-Stable tag: 3.3
+Stable tag: 3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -297,6 +297,19 @@ add_filter( 'cp-ctdi/confirmation_dialog_options', 'my_theme_ctdi_confirmation_d
 `
 
 == Changelog ==
+
+= 3.4 (Released: July 11, 2026) =
+* Security: The helper that installs/activates the Essential Content Types plugin now checks user permissions and a security token before doing anything, and only accepts the two Essential Content Types plugins (Reported by PRISM via Wordfence)
+* Bug Fixed: Users who can import demos but cannot manage plugins no longer see a "permissions" error page instead of the importer
+* Bug Fixed: File-read failures now show the actual error message instead of an internal error code
+* Bug Fixed: The demo search box container had a broken HTML attribute and could display unstyled
+* Bug Fixed: A JavaScript error no longer breaks the page when the importer is opened from the Tools - Import screen
+* Bug Fixed: Menu widgets whose menu is not part of the import no longer end up pointing at a missing menu
+* Bug Fixed: Failed Redux or customizer-image downloads are now skipped gracefully instead of stopping with a PHP error (including unsupported image types such as WebP)
+* Bug Fixed: WP-CLI import command no longer crashes when demo files cannot be downloaded
+* Improved: Popup dialog titles and buttons are now translatable
+* Improved: The "enable custom menu widget IDs fix" filter now works under its documented cp-ctdi name (the old spelling still works)
+* Improved: Cleaned up the remaining warnings reported by the Plugin Check plugin and removed a stray system file from the package
 
 = 3.3 (Released: June 21, 2026) =
 * Added: initial Block / Full Site Editing theme support — imports Global Styles, Navigation and customized templates/parts, and remaps IDs in block content; runs automatically when a block theme is active

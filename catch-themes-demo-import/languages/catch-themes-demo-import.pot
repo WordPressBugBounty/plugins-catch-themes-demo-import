@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Catch Themes Demo Import\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2026-06-21 22:44+0545\n"
+"POT-Creation-Date: 2026-07-11 21:21+0545\n"
 "PO-Revision-Date: 2016-12-12 09:23-0500\n"
 "Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
 "Language-Team: Catch Plugins <info@catchplugins.com>\n"
@@ -35,7 +35,7 @@ msgid "Navigation"
 msgstr ""
 
 #: ../inc/CatchThemesDemoImport.php:148 ../inc/CatchThemesDemoImport.php:149
-#: ../inc/Helpers.php:334 ../inc/Helpers.php:335
+#: ../inc/Helpers.php:333 ../inc/Helpers.php:334
 #: ../partials/catchthemes-demo-import.php:21
 msgid "Catch Themes Demo Import"
 msgstr ""
@@ -60,30 +60,48 @@ msgstr ""
 msgid "Selected demo import:"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:307
+#: ../inc/CatchThemesDemoImport.php:215
+msgid ""
+"Error: Forbidden (403). Your security token expired. Please reload this page "
+"and start the import again."
+msgstr ""
+
+#: ../inc/CatchThemesDemoImport.php:227
+msgid "Install ECT"
+msgstr ""
+
+#: ../inc/CatchThemesDemoImport.php:228
+msgid "Skip"
+msgstr ""
+
+#: ../inc/CatchThemesDemoImport.php:229
+msgid "OK"
+msgstr ""
+
+#: ../inc/CatchThemesDemoImport.php:313
 msgid "Manually uploaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:319 ../inc/CatchThemesDemoImport.php:331
+#: ../inc/CatchThemesDemoImport.php:325 ../inc/CatchThemesDemoImport.php:337
 msgid "Downloaded files"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:327
+#: ../inc/CatchThemesDemoImport.php:333
 #, php-format
 msgid "The import files for: %s were successfully downloaded!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:335
+#: ../inc/CatchThemesDemoImport.php:341
 msgid "No import files specified!"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:471
+#: ../inc/CatchThemesDemoImport.php:477
 msgid ""
 "Your user role isn't high enough. You don't have permission to import demo "
 "data."
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:499
+#: ../inc/CatchThemesDemoImport.php:505
 #, php-format
 msgid ""
 "%1$s%3$sThat's it, all done!%4$s%2$sThe demo import has finished. Please "
@@ -92,14 +110,14 @@ msgid ""
 "it has done its job.%5$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:511
+#: ../inc/CatchThemesDemoImport.php:517
 #, php-format
 msgid ""
 "%1$sThe demo import has finished, but there were some import errors.%2$sMore "
 "details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s"
 msgstr ""
 
-#: ../inc/CatchThemesDemoImport.php:679 ../partials/display-dashboard.php:22
+#: ../inc/CatchThemesDemoImport.php:687
 msgid "Settings"
 msgstr ""
 
@@ -107,12 +125,12 @@ msgstr ""
 msgid "Themes by CatchThemes"
 msgstr ""
 
-#: ../inc/CatchThemesThemePlugin.php:449
+#: ../inc/CatchThemesThemePlugin.php:452
 msgctxt "Plugin Installer"
 msgid "Catch Plugins"
 msgstr ""
 
-#: ../inc/CatchThemesThemePlugin.php:493
+#: ../inc/CatchThemesThemePlugin.php:496
 #, php-format
 msgid ""
 "You can use any of our free plugins or premium plugins from <a href=\"%s\" "
@@ -144,6 +162,11 @@ msgid ""
 "only import customizer settings for the same theme or a child theme."
 msgstr ""
 
+#: ../inc/CustomizerImporter.php:217
+#, php-format
+msgid "The customizer image could not be imported (unsupported file type): %s"
+msgstr ""
+
 #: ../inc/Downloader.php:66
 msgid "Missing URL for downloading a file!"
 msgstr ""
@@ -162,14 +185,14 @@ msgid ""
 "to: %1$s%2$s."
 msgstr ""
 
-#: ../inc/Helpers.php:295
+#: ../inc/Helpers.php:294
 #, php-format
 msgid ""
 "An error occurred while reading a file from your server! Tried reading file "
 "from path: %1$s%2$s."
 msgstr ""
 
-#: ../inc/Helpers.php:320
+#: ../inc/Helpers.php:319
 #, php-format
 msgid ""
 "This WordPress page does not have %1$sdirect%2$s write file access. This "
@@ -178,74 +201,83 @@ msgid ""
 "%3$s."
 msgstr ""
 
-#: ../inc/Helpers.php:348
+#: ../inc/Helpers.php:347
 msgid ""
 "An error occurred while retrieving reading/writing permissions to your "
 "server (could not retrieve WP filesystem credentials)!"
 msgstr ""
 
-#: ../inc/Helpers.php:356
+#: ../inc/Helpers.php:355
 msgid "Your WordPress login credentials don't allow to use WP_Filesystem!"
 msgstr ""
 
-#: ../inc/Helpers.php:402
+#: ../inc/Helpers.php:401
 msgid "Catch Themes Demo Import - "
 msgstr ""
 
-#: ../inc/Helpers.php:462
+#: ../inc/Helpers.php:461
 #, php-format
 msgid ""
 "%1$sYour user role isn't high enough. You don't have permission to import "
 "demo data.%2$s"
 msgstr ""
 
-#: ../inc/Helpers.php:511
+#: ../inc/Helpers.php:496
+msgid "No file was uploaded."
+msgstr ""
+
+#: ../inc/Helpers.php:512
 #, php-format
 msgid "Content file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:515 ../inc/Helpers.php:532 ../inc/Helpers.php:549
-#: ../inc/Helpers.php:561 ../inc/Helpers.php:584 ../inc/Helpers.php:592
+#: ../inc/Helpers.php:513 ../inc/Helpers.php:530 ../inc/Helpers.php:547
+#: ../inc/Helpers.php:582
+msgid "Unknown upload error."
+msgstr ""
+
+#: ../inc/Helpers.php:516 ../inc/Helpers.php:533 ../inc/Helpers.php:550
+#: ../inc/Helpers.php:562 ../inc/Helpers.php:585 ../inc/Helpers.php:593
 msgid "Upload files"
 msgstr ""
 
-#: ../inc/Helpers.php:528
+#: ../inc/Helpers.php:529
 #, php-format
 msgid "Widget file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:545
+#: ../inc/Helpers.php:546
 #, php-format
 msgid "Customizer file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:559
+#: ../inc/Helpers.php:560
 msgid "Missing Redux option name! Please also enter the Redux option name!"
 msgstr ""
 
-#: ../inc/Helpers.php:580
+#: ../inc/Helpers.php:581
 #, php-format
 msgid "Redux file was not uploaded. Error: %s"
 msgstr ""
 
-#: ../inc/Helpers.php:590
+#: ../inc/Helpers.php:591
 msgid "The import files were successfully uploaded!"
 msgstr ""
 
-#: ../inc/Helpers.php:622
+#: ../inc/Helpers.php:623
 #, php-format
 msgid "Initial max execution time = %s"
 msgstr ""
 
-#: ../inc/Helpers.php:627
+#: ../inc/Helpers.php:628
 #, php-format
 msgid ""
 "Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = "
 "%4$s%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s"
 msgstr ""
 
-#: ../inc/Helpers.php:630 ../inc/Helpers.php:631 ../inc/Helpers.php:632
-#: ../inc/Helpers.php:633
+#: ../inc/Helpers.php:631 ../inc/Helpers.php:632 ../inc/Helpers.php:633
+#: ../inc/Helpers.php:634
 msgid "not defined!"
 msgstr ""
 
@@ -257,17 +289,17 @@ msgstr ""
 msgid "The Redux plugin is not activated, so the Redux import was skipped!"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:37 ../inc/ReduxImporter.php:62
-#: ../inc/ReduxImporter.php:78
+#: ../inc/ReduxImporter.php:37 ../inc/ReduxImporter.php:53
+#: ../inc/ReduxImporter.php:75 ../inc/ReduxImporter.php:91
 msgid "Importing Redux settings"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:58
+#: ../inc/ReduxImporter.php:71
 #, php-format
 msgid "Redux settings import for: %s finished successfully!"
 msgstr ""
 
-#: ../inc/ReduxImporter.php:67
+#: ../inc/ReduxImporter.php:80
 #, php-format
 msgid ""
 "The Redux option name: %s, was not found in this WP site, so it was not "
@@ -312,75 +344,75 @@ msgstr ""
 msgid "Preparing the demo import files..."
 msgstr ""
 
-#: ../inc/WPCLICommands.php:162
+#: ../inc/WPCLICommands.php:166
 msgid "Demo import files could not be retrieved!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:166
+#: ../inc/WPCLICommands.php:170
 msgid "Demo import files retrieved successfully!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:168
+#: ../inc/WPCLICommands.php:172
 msgid "Importing..."
 msgstr ""
 
-#: ../inc/WPCLICommands.php:188
+#: ../inc/WPCLICommands.php:192
 msgid "Predefined import finished!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:201
+#: ../inc/WPCLICommands.php:205
 msgid "Content import file provided does not exist! Skipping this import!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:210
+#: ../inc/WPCLICommands.php:214
 msgid "Importing content (this might take a while)..."
 msgstr ""
 
-#: ../inc/WPCLICommands.php:212
+#: ../inc/WPCLICommands.php:216
 msgid "Importing content"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:217
+#: ../inc/WPCLICommands.php:221
 msgid "Content import finished!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:219
+#: ../inc/WPCLICommands.php:223
 msgid "There were some issues while importing the content!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:239
+#: ../inc/WPCLICommands.php:243
 msgid "Widgets import file provided does not exist! Skipping this import!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:243
+#: ../inc/WPCLICommands.php:247
 msgid "Importing widgets..."
 msgstr ""
 
-#: ../inc/WPCLICommands.php:248
+#: ../inc/WPCLICommands.php:252
 msgid "Widgets imported successfully!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:250
+#: ../inc/WPCLICommands.php:254
 msgid "There were some issues while importing widgets!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:270
+#: ../inc/WPCLICommands.php:274
 msgid "Customizer import file provided does not exist! Skipping this import!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:274
+#: ../inc/WPCLICommands.php:278
 msgid "Importing customizer settings..."
 msgstr ""
 
-#: ../inc/WPCLICommands.php:280
+#: ../inc/WPCLICommands.php:284
 msgid "Customizer settings imported successfully!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:283
+#: ../inc/WPCLICommands.php:287
 msgid "There were some issues while importing customizer settings!"
 msgstr ""
 
-#: ../inc/WPCLICommands.php:306
+#: ../inc/WPCLICommands.php:310
 #, php-format
 msgid "Executing action: %s ..."
 msgstr ""
@@ -406,23 +438,23 @@ msgstr ""
 msgid "Site does not support widget"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:218
+#: ../inc/WidgetImporter.php:220
 msgid "Widget already exists"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:277
+#: ../inc/WidgetImporter.php:279
 msgid "Imported"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:281
+#: ../inc/WidgetImporter.php:283
 msgid "Imported to Inactive"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:287
+#: ../inc/WidgetImporter.php:289
 msgid "No Title"
 msgstr ""
 
-#: ../inc/WidgetImporter.php:337
+#: ../inc/WidgetImporter.php:339
 msgid "No results for widget import!"
 msgstr ""
 
@@ -438,9 +470,17 @@ msgstr ""
 msgid "Connection Error. Please try again."
 msgstr ""
 
-#: ../inc/demo-importer.php:148 ../inc/demo-importer.php:236
+#: ../inc/demo-importer.php:182
 msgid ""
 "You do not have sufficient permissions to activate plugins for this site."
+msgstr ""
+
+#: ../inc/demo-importer.php:186
+msgid "Security check failed. Please go back and try again."
+msgstr ""
+
+#: ../inc/demo-importer.php:195
+msgid "Invalid plugin requested."
 msgstr ""
 
 #: ../partials/catchthemes-demo-import.php:23
@@ -518,6 +558,10 @@ msgid ""
 "your website, you can always hire our theme customizer!"
 msgstr ""
 
+#: ../partials/catchthemes-demo-import.php:110
+msgid "Activate required plugin?"
+msgstr ""
+
 #: ../partials/catchthemes-demo-import.php:113
 msgid ""
 "Please install Essential Content Types plugin to fully import the theme demo "
@@ -525,24 +569,12 @@ msgid ""
 "and Services."
 msgstr ""
 
+#: ../partials/catchthemes-demo-import.php:117
+msgid "Required plugin activated"
+msgstr ""
+
 #: ../partials/catchthemes-demo-import.php:120
 msgid "Required plugin ECT has been activated, now you can import the demo"
-msgstr ""
-
-#: ../partials/display-dashboard.php:51
-msgid "Media"
-msgstr ""
-
-#: ../partials/display-dashboard.php:63
-msgid "Categories"
-msgstr ""
-
-#: ../partials/display-dashboard.php:75
-msgid "Users"
-msgstr ""
-
-#: ../partials/display-dashboard.php:87
-msgid "Comments"
 msgstr ""
 
 #: ../partials/footer.php:11

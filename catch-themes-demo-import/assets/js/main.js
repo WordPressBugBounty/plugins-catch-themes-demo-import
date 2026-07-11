@@ -387,15 +387,11 @@ jQuery(function ($) {
 					// Retry the original request once with the fresh nonce.
 					ajaxCall(data, true);
 				} else {
-					showImportError(
-						'Error: Forbidden (403). Your security token expired. Please reload this page and start the import again.'
-					);
+					showImportError(ctdi.texts.nonce_expired);
 				}
 			})
 			.fail(function () {
-				showImportError(
-					'Error: Forbidden (403). Your security token expired. Please reload this page and start the import again.'
-				);
+				showImportError(ctdi.texts.nonce_expired);
 			});
 	}
 

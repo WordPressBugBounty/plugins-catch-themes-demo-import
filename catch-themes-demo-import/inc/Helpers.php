@@ -77,7 +77,7 @@ class Helpers
 		// ----- Set content file path -----
 		// Check if 'import_file_url' is not defined. That would mean a local file.
 		if (empty($import_file_info['import_file_url'])) {
-			if (file_exists($import_file_info['local_import_file'])) {
+			if (! empty($import_file_info['local_import_file']) && file_exists($import_file_info['local_import_file'])) {
 				$downloaded_files['content'] = $import_file_info['local_import_file'];
 			}
 		} else {
@@ -142,7 +142,7 @@ class Helpers
 			// Setup filename paths to save the Redux content.
 			foreach ($import_file_info['import_redux'] as $index => $redux_item) {
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
-			$redux_filename = apply_filters('cp-ctdi/downloaded_redux_file_prefix', 'demo-redux-import-file_') . $index . '-' . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_redux_file_suffix_and_file_extension', '.json');
+				$redux_filename = apply_filters('cp-ctdi/downloaded_redux_file_prefix', 'demo-redux-import-file_') . $index . '-' . self::$demo_import_start_time . apply_filters('cp-ctdi/downloaded_redux_file_suffix_and_file_extension', '.json');
 
 				// Download the Redux import file.
 				$file_path = $downloader->download_file($redux_item['file_url'], $redux_filename);
@@ -289,7 +289,6 @@ class Helpers
 		if (! $data) {
 			return new \WP_Error(
 				'failed_reading_file_from_server',
-				'failed_reading_file_from_server',
 				sprintf(
 					// Translators:  Notice error message after incorrect reading a file.
 					__('An error occurred while reading a file from your server! Tried reading file from path: %1$s%2$s.', 'catch-themes-demo-import'),
@@ -433,7 +432,7 @@ class Helpers
 	 */
 	public static function silence_error_display()
 	{
-		// phpcs:ignore WordPress.PHP.IniSet.display_errors_Disallowed -- silencing error display (not logging) for a JSON endpoint.
+		// phpcs:ignore WordPress.PHP.IniSet.display_errors_Disallowed, Squiz.PHP.DiscouragedFunctions.Discouraged -- silencing error display (not logging) for a JSON endpoint.
 		@ini_set('display_errors', '0');
 	}
 
@@ -493,11 +492,13 @@ class Helpers
 		);
 
 		// Handle demo content and widgets file upload.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call(); wp_handle_upload() validates and sanitizes all file data.
-		$content_file_info    = wp_handle_upload($_FILES['content_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$widget_file_info     = wp_handle_upload($_FILES['widget_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$customizer_file_info = wp_handle_upload($_FILES['customizer_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
-		$redux_file_info      = wp_handle_upload($_FILES['redux_file'], $upload_overrides); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Missing
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- nonce verified upstream via Helpers::verify_ajax_call(); wp_handle_upload() validates and sanitizes all file data.
+		$no_file_error        = array('error' => esc_html__('No file was uploaded.', 'catch-themes-demo-import'));
+		$content_file_info    = isset($_FILES['content_file']) ? wp_handle_upload($_FILES['content_file'], $upload_overrides) : $no_file_error;
+		$widget_file_info     = isset($_FILES['widget_file']) ? wp_handle_upload($_FILES['widget_file'], $upload_overrides) : $no_file_error;
+		$customizer_file_info = isset($_FILES['customizer_file']) ? wp_handle_upload($_FILES['customizer_file'], $upload_overrides) : $no_file_error;
+		$redux_file_info      = isset($_FILES['redux_file']) ? wp_handle_upload($_FILES['redux_file'], $upload_overrides) : $no_file_error;
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing
 
 		// Process content import file.
 		if ($content_file_info && ! isset($content_file_info['error'])) {
@@ -509,7 +510,7 @@ class Helpers
 				sprintf(
 					// Translators: %s is error message to be display while content file is not uploaded
 					__('Content file was not uploaded. Error: %s', 'catch-themes-demo-import'),
-					$content_file_info['error']
+					$content_file_info['error'] ?? esc_html__('Unknown upload error.', 'catch-themes-demo-import')
 				),
 				$log_file_path,
 				esc_html__('Upload files', 'catch-themes-demo-import')
@@ -526,7 +527,7 @@ class Helpers
 				sprintf(
 					// Translators: %s is error message to be display while widget file is not uploaded
 					__('Widget file was not uploaded. Error: %s', 'catch-themes-demo-import'),
-					$widget_file_info['error']
+					$widget_file_info['error'] ?? esc_html__('Unknown upload error.', 'catch-themes-demo-import')
 				),
 				$log_file_path,
 				esc_html__('Upload files', 'catch-themes-demo-import')
@@ -543,7 +544,7 @@ class Helpers
 				sprintf(
 					// Translators: %s is error message to be display while customizer file is not uploaded
 					__('Customizer file was not uploaded. Error: %s', 'catch-themes-demo-import'),
-					$customizer_file_info['error']
+					$customizer_file_info['error'] ?? esc_html__('Unknown upload error.', 'catch-themes-demo-import')
 				),
 				$log_file_path,
 				esc_html__('Upload files', 'catch-themes-demo-import')
@@ -578,7 +579,7 @@ class Helpers
 				sprintf(
 					// Translators: %s is error message to be display while redux file is not uploaded
 					__('Redux file was not uploaded. Error: %s', 'catch-themes-demo-import'),
-					$redux_file_info['error']
+					$redux_file_info['error'] ?? esc_html__('Unknown upload error.', 'catch-themes-demo-import')
 				),
 				$log_file_path,
 				esc_html__('Upload files', 'catch-themes-demo-import')

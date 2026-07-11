@@ -73,7 +73,7 @@ class CustomizerImporter
 		// Make sure we have an import file.
 		if (! file_exists($import_file_path)) {
 			return new \WP_Error(
-				'missing_cutomizer_import_file',
+				'missing_customizer_import_file',
 				sprintf(
 					// Translators: Notice to show error missing %s import files.
 					esc_html__('Error: The customizer import file is missing! File path: %s', 'catch-themes-demo-import'),
@@ -209,7 +209,16 @@ class CustomizerImporter
 		}
 		if (! empty($file)) {
 			// Set variables for storage, fix file filename for query strings.
-			preg_match('/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches);
+			if (! preg_match('/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches)) {
+				return new \WP_Error(
+					'customizer_import_unsupported_image',
+					sprintf(
+						// Translators: %s is the image URL that could not be imported.
+						esc_html__('The customizer image could not be imported (unsupported file type): %s', 'catch-themes-demo-import'),
+						$file
+					)
+				);
+			}
 			$file_array = array();
 			$file_array['name'] = basename($matches[0]);
 

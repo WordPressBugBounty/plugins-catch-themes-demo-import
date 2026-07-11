@@ -143,39 +143,31 @@ function catch_themes_demo_import_plugin_active_check()
 	$current_theme = wp_get_theme();
 	$activate_data = array();
 
-	if ('Catch Themes' == wp_strip_all_tags($current_theme->author)) {
-		if (! current_user_can('activate_plugins')) {
-			wp_die(esc_html__('You do not have sufficient permissions to activate plugins for this site.', 'catch-themes-demo-import'));
-		}
-		$free    = 'essential-content-types/essential-content-types.php';
-		$pro     = 'essential-content-types-pro/essential-content-types-pro.php';
-		$plugins = false;
-		$plugins = get_option('active_plugins'); // get active plugins
+	// Users without the capability simply don't get the activation prompt;
+	// the import page itself must keep working for them.
+	if ('Catch Themes' === wp_strip_all_tags($current_theme->author) && current_user_can('activate_plugins')) {
+		$free = 'essential-content-types/essential-content-types.php';
+		$pro  = 'essential-content-types-pro/essential-content-types-pro.php';
 
 		if (! is_plugin_active($free) && ! is_plugin_active($pro)) {
 
 			$all_plugins = get_plugins();
-			// Activate Pro plugin if both plugins exist
-			if (array_key_exists($free, $all_plugins) && array_key_exists($pro, $all_plugins)) {
-				$activate_data = array(
-					'activate' => $pro,
-					'url'      => admin_url('themes.php?page=catch-themes-demo-import&activate_plugin=essential-content-types-pro'),
-				);
-			}
-			// Activate Pro plugin if only Pro plugin exists
-			elseif (! array_key_exists($free, $all_plugins) && array_key_exists($pro, $all_plugins)) {
-				$activate_data = array(
-					'activate' => $pro,
-					'url'      => admin_url('themes.php?page=catch-themes-demo-import&activate_plugin=essential-content-types-pro'),
-				);
-			}
-			// Activate Free plugin if only Free plugin exists or install free if none exists
-			else {
-				$activate_data = array(
-					'activate' => $free,
-					'url'      => admin_url('themes.php?page=catch-themes-demo-import&activate_plugin=essential-content-types'),
-				);
-			}
+			// Activate the Pro plugin whenever it exists; otherwise fall back to Free (installing it if needed).
+			// Note: built with add_query_arg (not wp_nonce_url) because this URL is passed
+			// to JavaScript for a redirect and must not be HTML-entity-escaped.
+			$activate_slug = array_key_exists($pro, $all_plugins) ? 'essential-content-types-pro' : 'essential-content-types';
+
+			$activate_data = array(
+				'activate' => ('essential-content-types-pro' === $activate_slug) ? $pro : $free,
+				'url'      => add_query_arg(
+					array(
+						'page'            => 'catch-themes-demo-import',
+						'activate_plugin' => $activate_slug,
+						'_wpnonce'        => wp_create_nonce('ctdi_activate_plugin'),
+					),
+					admin_url('themes.php')
+				),
+			);
 		}
 	}
 	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
@@ -185,13 +177,29 @@ function catch_themes_demo_import_plugin_active_check()
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- catch_themes_demo_import_ is the plugin's function prefix; registered as admin_init callback.
 function catch_themes_demo_import_activate_plugin()
 {
+	// Capability and nonce checks must run BEFORE any install/activate work.
+	if (! current_user_can('activate_plugins')) {
+		wp_die(esc_html__('You do not have sufficient permissions to activate plugins for this site.', 'catch-themes-demo-import'));
+	}
+
+	if (! isset($_GET['_wpnonce']) || ! wp_verify_nonce(sanitize_key(wp_unslash($_GET['_wpnonce'])), 'ctdi_activate_plugin')) {
+		wp_die(esc_html__('Security check failed. Please go back and try again.', 'catch-themes-demo-import'));
+	}
+
 	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local function variables, not exposed to global scope.
+	$activate_plugin = isset($_GET['activate_plugin']) ? sanitize_key(wp_unslash($_GET['activate_plugin'])) : '';
+
+	// Only the two Essential Content Types plugins may be handled here.
+	$allowed_plugins = array('essential-content-types', 'essential-content-types-pro');
+	if (! in_array($activate_plugin, $allowed_plugins, true)) {
+		wp_die(esc_html__('Invalid plugin requested.', 'catch-themes-demo-import'));
+	}
+
 	$plugin      = 'essential-content-types';
 	$plugin_free = 'essential-content-types/essential-content-types.php';
 	$plugin_pro  = 'essential-content-types-pro/essential-content-types-pro.php';
 	$all_plugins = get_plugins();
-	if (array_key_exists($plugin_free, $all_plugins) || array_key_exists($plugin_pro, $all_plugins)) {
-	} else {
+	if (! array_key_exists($plugin_free, $all_plugins) && ! array_key_exists($plugin_pro, $all_plugins)) {
 		include_once(ABSPATH . 'wp-admin/includes/plugin-install.php'); //for plugins_api..
 
 		$api = plugins_api(
@@ -215,12 +223,16 @@ function catch_themes_demo_import_activate_plugin()
 			)
 		);
 
+		if (is_wp_error($api)) {
+			wp_die(esc_html($api->get_error_message()));
+		}
+
 		//includes necessary for Plugin_Upgrader and Plugin_Installer_Skin
 		include_once(ABSPATH . 'wp-admin/includes/file.php');
 		include_once(ABSPATH . 'wp-admin/includes/misc.php');
 		include_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
 
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- anonymous upgrader skin class scoped inside a function; not exposed globally.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- upgrader skin class scoped inside a function; not exposed globally.
 		class Quiet_Skin extends \WP_Upgrader_Skin
 		{
 			public function feedback($string, ...$arg)
@@ -229,16 +241,10 @@ function catch_themes_demo_import_activate_plugin()
 			}
 		}
 
-		$upgrader = new Plugin_Upgrader(new Quiet_Skin(compact('title', 'url', 'nonce', 'plugin', 'api')));
+		$upgrader = new Plugin_Upgrader(new Quiet_Skin(array('api' => $api)));
 		$upgrader->install($api->download_link);
 	}
-	if (! current_user_can('activate_plugins')) {
-		wp_die(esc_html__('You do not have sufficient permissions to activate plugins for this site.', 'catch-themes-demo-import'));
-	}
-
 	// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- routing flag set by this plugin's own redirect; value is sanitized below.
-	$activate_plugin = isset($_GET['activate_plugin']) ? sanitize_text_field(wp_unslash($_GET['activate_plugin'])) : '';
 
 	activate_plugin($activate_plugin . '/' . $activate_plugin . '.php');
 	wp_safe_redirect(admin_url('themes.php?page=catch-themes-demo-import&response=activated'));

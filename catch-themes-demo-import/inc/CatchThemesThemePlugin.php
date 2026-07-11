@@ -180,6 +180,9 @@ class CatchThemesThemePlugin
 	 */
 	public function handle_load_themes_request()
 	{
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- $wp_customize is a WordPress core global; cannot be renamed.
+		global $wp_customize;
+
 		check_ajax_referer('switch_themes', 'nonce');
 		if (! current_user_can('switch_themes')) {
 			wp_die(-1);

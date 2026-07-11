@@ -212,6 +212,7 @@ class CatchThemesDemoImport
 						'dialog_no'             => esc_html__('Cancel', 'catch-themes-demo-import'),
 						'dialog_yes'            => esc_html__('Yes, import!', 'catch-themes-demo-import'),
 						'selected_import_title' => esc_html__('Selected demo import:', 'catch-themes-demo-import'),
+						'nonce_expired'         => esc_html__('Error: Forbidden (403). Your security token expired. Please reload this page and start the import again.', 'catch-themes-demo-import'),
 					),
 					'dialog_options'   => apply_filters('cp-ctdi/confirmation_dialog_options', array()), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
 				)
@@ -221,7 +222,12 @@ class CatchThemesDemoImport
 				'ctdi-dashboard-js',
 				'object',
 				array(
-					'url' => admin_url('themes.php?page=catch-themes-demo-import'),
+					'url'   => admin_url('themes.php?page=catch-themes-demo-import'),
+					'texts' => array(
+						'install' => esc_html__('Install ECT', 'catch-themes-demo-import'),
+						'skip'    => esc_html__('Skip', 'catch-themes-demo-import'),
+						'ok'      => esc_html__('OK', 'catch-themes-demo-import'),
+					),
 				)
 			);
 
@@ -530,7 +536,9 @@ class CatchThemesDemoImport
 	 */
 	private function use_existing_importer_data()
 	{
-		if ($data = get_transient('ctdi_importer_data')) {
+		$data = get_transient('ctdi_importer_data');
+
+		if ($data) {
 			$this->frontend_error_messages = empty($data['frontend_error_messages']) ? array() : $data['frontend_error_messages'];
 			$this->log_file_path           = empty($data['log_file_path']) ? '' : $data['log_file_path'];
 			$this->selected_index          = empty($data['selected_index']) ? 0 : $data['selected_index'];
@@ -587,7 +595,7 @@ class CatchThemesDemoImport
 		}
 
 		foreach ($lines as $line) {
-			if (! empty($line) && ! in_array($line, $this->frontend_error_messages)) {
+			if (! empty($line) && ! in_array($line, $this->frontend_error_messages, true)) {
 				$this->frontend_error_messages[] = $line;
 			}
 		}

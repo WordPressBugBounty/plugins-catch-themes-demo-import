@@ -107,14 +107,14 @@ if (! defined('ABSPATH')) exit;
 
     <?php require_once plugin_dir_path(dirname(__FILE__)) . '/partials/footer.php'; ?>
 </div><!-- .wrap -->
-<div id="dialog-confirm" title="Activate required plugin?" style="display: none;">
+<div id="dialog-confirm" title="<?php esc_attr_e('Activate required plugin?', 'catch-themes-demo-import'); ?>" style="display: none;">
     <p>
         <span class="dashicons dashicons-info" style="float:left; margin:12px 12px 20px 0;"></span>
         <?php esc_html_e('Please install Essential Content Types plugin to fully import the theme demo including Custom Post Types like Featured Content, Portfolio, Testimonials, and Services.', 'catch-themes-demo-import'); ?>
     </p>
 </div>
 
-<div id="dialog-activated" title="ECT Activated" style="display: none;">
+<div id="dialog-activated" title="<?php esc_attr_e('Required plugin activated', 'catch-themes-demo-import'); ?>" style="display: none;">
     <p>
         <span class="dashicons dashicons-info" style="float:left; margin:12px 12px 20px 0;"></span>
         <?php esc_html_e('Required plugin ECT has been activated, now you can import the demo', 'catch-themes-demo-import'); ?>

@@ -31,7 +31,7 @@ class Logger extends \CatchThemes\WPContentImporter2\WPImporterLoggerCLI
 	public function log($level, $message, array $context = array())
 	{
 		// Save error messages for front-end display.
-		$this->error_output($level, $message, $context = array());
+		$this->error_output($level, $message, $context);
 
 		if ($this->level_to_numeric($level) < $this->level_to_numeric($this->min_level)) {
 			return;

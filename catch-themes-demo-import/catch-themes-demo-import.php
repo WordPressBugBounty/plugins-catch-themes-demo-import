@@ -3,7 +3,7 @@
 Plugin Name: Catch Themes Demo Import
 Plugin URI: https://wordpress.org/plugins/catch-themes-demo-import/
 Description: Catch Themes Demo Import is a simple and easy-to-use demo importer WordPress plugin that allows you to import the theme demo data (design and content placement) you desire in just a single click.
-Version: 3.3
+Version: 3.4
 Author: Catch Plugins
 Author URI: https://catchplugins.com
 License: GPL3
@@ -111,7 +111,7 @@ class CatchThemesDemoImportPlugin
 	// Redirect to settings page after plugin activation.
 	function ctdi_redirect_to_plugin_setting($plugin)
 	{
-		if ($plugin == plugin_basename(__FILE__)) {
+		if ($plugin === plugin_basename(__FILE__)) {
 			wp_safe_redirect(
 				add_query_arg(
 					array(

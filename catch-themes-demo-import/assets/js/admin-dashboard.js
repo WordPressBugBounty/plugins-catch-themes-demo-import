@@ -60,47 +60,61 @@
 		).matchHeight();
 	});
 
-	if (undefined != activate && activate != false) {
-		//console.log(activate); return false;
+	// The "activate" object is only localized on the plugin's own admin page; guard
+	// with typeof so the importer route (admin.php?import=...) doesn't throw a
+	// ReferenceError that would break the rest of this script.
+	if (typeof activate !== 'undefined' && activate && activate.url) {
 		$(function () {
 			$('#dialog-confirm').dialog({
 				resizable: false,
 				height: 'auto',
 				width: 400,
 				modal: true,
-				buttons: {
-					'Install ECT': function () {
-						$(this).dialog('close');
-						window.location.href = activate.url;
+				buttons: [
+					{
+						text: object.texts.install,
+						click: function () {
+							$(this).dialog('close');
+							window.location.href = activate.url;
+						},
 					},
-					Skip: function () {
-						$(this).dialog('close');
+					{
+						text: object.texts.skip,
+						click: function () {
+							$(this).dialog('close');
+						},
 					},
-				},
+				],
 			});
 		});
 	}
 
-	if (object.url + '&response=activated' == window.location.href) {
+	if (
+		typeof object !== 'undefined' &&
+		object.url + '&response=activated' === window.location.href
+	) {
 		$(function () {
 			$('#dialog-activated').dialog({
 				resizable: false,
 				height: 'auto',
 				width: 400,
 				modal: true,
-				buttons: {
-					Ok: function () {
-						$(this).dialog('close');
-						if (window.history.replaceState) {
-							//prevents browser from storing history with each change:
-							window.history.replaceState(
-								'state',
-								'Catch Themes Demo Import',
-								object.url
-							);
-						}
+				buttons: [
+					{
+						text: object.texts.ok,
+						click: function () {
+							$(this).dialog('close');
+							if (window.history.replaceState) {
+								//prevents browser from storing history with each change:
+								window.history.replaceState(
+									'state',
+									'Catch Themes Demo Import',
+									object.url
+								);
+							}
+						},
 					},
-				},
+				],
 			});
 		});
 	}

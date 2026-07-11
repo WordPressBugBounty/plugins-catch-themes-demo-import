@@ -144,7 +144,7 @@ class WidgetImporter {
 		// Loop import data's sidebars.
 		foreach ( $data as $sidebar_id => $widgets ) {
 			// Skip inactive widgets (should not be in export file).
-			if ( 'wp_inactive_widgets' == $sidebar_id ) {
+			if ( 'wp_inactive_widgets' === $sidebar_id ) {
 				continue;
 			}
 
@@ -212,7 +212,9 @@ class WidgetImporter {
 					$single_widget_instances = ! empty( $widget_instances[ $id_base ] ) ? $widget_instances[ $id_base ] : array();
 					foreach ( $single_widget_instances as $check_id => $check_widget ) {
 						// Is widget in same sidebar and has identical settings?
-						if ( in_array( "$id_base-$check_id", $sidebar_widgets ) && (array) $widget == $check_widget ) {
+						// Note: the settings comparison stays loose (==) on purpose -- it is an
+						// order-insensitive array comparison, not an identity check.
+						if ( in_array( "$id_base-$check_id", $sidebar_widgets, true ) && (array) $widget == $check_widget ) {
 							$fail                = true;
 							$widget_message_type = 'warning';
 							$widget_message      = __( 'Widget already exists', 'catch-themes-demo-import' ); // Explain why widget not imported.

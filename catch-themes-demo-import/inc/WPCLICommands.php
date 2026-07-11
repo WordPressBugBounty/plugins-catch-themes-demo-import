@@ -155,7 +155,11 @@ class WPCLICommands extends \WP_CLI_Command
 
 		WP_CLI::log(esc_html__('Preparing the demo import files...', 'catch-themes-demo-import'));
 
-		$import_files =	Helpers::download_import_files($selected_files);
+		$import_files = Helpers::download_import_files($selected_files);
+
+		if (is_wp_error($import_files)) {
+			WP_CLI::error($import_files->get_error_message());
+		}
 
 		if (empty($import_files)) {
 			WP_CLI::error(

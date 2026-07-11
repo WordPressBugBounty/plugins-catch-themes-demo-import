@@ -18,6 +18,8 @@ class ImportActions
 	 */
 	public function register_hooks()
 	{
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp-ctdi/ is the established hook prefix for this plugin's public API.
+
 		// Before content import.
 		add_action('cp-ctdi/before_content_import_execution', array($this, 'before_content_import_action'), 10, 3);
 
@@ -32,11 +34,13 @@ class ImportActions
 		// After full import action.
 		add_action('cp-ctdi/after_all_import_execution', array($this, 'after_import_action'), 10, 3);
 
-		// Special widget import cases.
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- cp_ctdi/ is the established hook prefix for this plugin's public API (underscore variant).
-		if (apply_filters('cp_ctdi/enable_custom_menu_widget_ids_fix', true)) {
+		// Special widget import cases. The canonical filter name is cp-ctdi/ (hyphen);
+		// the old cp_ctdi/ (underscore) spelling is still honored for back-compat.
+		if (apply_filters('cp-ctdi/enable_custom_menu_widget_ids_fix', apply_filters('cp_ctdi/enable_custom_menu_widget_ids_fix', true))) {
 			add_action('cp-ctdi/widget_settings_array', array($this, 'fix_custom_menu_widget_ids'));
 		}
+
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 	}
 
 
@@ -58,11 +62,13 @@ class ImportActions
 		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local method variables, not exposed to global scope.
 		$ctdi                = CatchThemesDemoImport::get_instance();
 		$content_import_data = $ctdi->importer->get_importer_data();
-		$term_ids            = $content_import_data['mapping']['term_id'];
+		$term_ids            = isset($content_import_data['mapping']['term_id']) ? $content_import_data['mapping']['term_id'] : array();
 		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-		// Set the new menu ID for the widget.
-		$widget['nav_menu'] = $term_ids[$widget['nav_menu']];
+		// Set the new menu ID for the widget; leave it unchanged if this menu was not part of the import.
+		if (isset($term_ids[$widget['nav_menu']])) {
+			$widget['nav_menu'] = (int) $term_ids[$widget['nav_menu']];
+		}
 
 		return $widget;
 	}

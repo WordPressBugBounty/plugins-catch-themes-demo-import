@@ -104,7 +104,7 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 	<?php endif; ?>
 
 	<?php
-	if (empty($predefined_themes)) :;
+	if (empty($predefined_themes)) :
 	?>
 
 		<div class="ctdi__file-upload-container">
@@ -181,8 +181,8 @@ if (! empty($this->import_files) && isset($_GET['import-mode']) && 'manual' === 
 							<?php endforeach; ?>
 						</ul>
 					</nav>
-					<div clas="ctdi__gl-search">
-						<input type="search" class="ctdi__gl-search-input  js-ctdi-gl-search" name="ctdi-gl-search" value="" placeholder="<?php esc_html_e('Search demos...', 'catch-themes-demo-import'); ?>">
+					<div class="ctdi__gl-search">
+						<input type="search" class="ctdi__gl-search-input  js-ctdi-gl-search" name="ctdi-gl-search" value="" placeholder="<?php esc_attr_e('Search demos...', 'catch-themes-demo-import'); ?>">
 					</div>
 				</div>
 			<?php endif; ?>

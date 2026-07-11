@@ -43,6 +43,19 @@ class ReduxImporter
 		foreach ($import_data as $redux_item) {
 			$redux_options_raw_data = Helpers::data_from_file($redux_item['file_path']);
 
+			// Skip this item if the file could not be read.
+			if (is_wp_error($redux_options_raw_data)) {
+				$ctdi->append_to_frontend_error_messages($redux_options_raw_data->get_error_message());
+
+				Helpers::append_to_file(
+					$redux_options_raw_data->get_error_message(),
+					$log_file_path,
+					esc_html__('Importing Redux settings', 'catch-themes-demo-import')
+				);
+
+				continue;
+			}
+
 			$redux_options_data = json_decode($redux_options_raw_data, true);
 
 			$redux_framework = \ReduxFrameworkInstances::get_instance($redux_item['option_name']);
